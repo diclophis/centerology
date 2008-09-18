@@ -1,0 +1,43 @@
+Models
+  Person
+    nickname
+    email
+    site
+    has_many :images :through => :findings
+
+  Image
+    title
+    src
+    exif
+
+  Finding
+    person_id
+    image_id
+    note
+    position
+    private
+
+
+
+"quoted from" / "via"
+"first found by"
+
+
+How many other people have saved this image 
+
+"most active people"
+"recent active people"
+
+"flag image as bad"
+
+"popular images $date"
+
+"recent images $date"
+"recent images from $person"
+"recent images from $domain"
+
+"popular tags"
+"infinite scroll"
+
+
+

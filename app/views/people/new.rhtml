@@ -1,0 +1,6 @@
+
+<%= flash[:error] %>
+
+<% form_tag person_path do %>
+  <%= text_field_tag 'openid_url' %> <%= submit_tag 'Login' %>
+<% end %>
