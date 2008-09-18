@@ -40,4 +40,23 @@ How many other people have saved this image
 "infinite scroll"
 
 
+# finders
+user.friends_for_me
+user.friends_by_me
+user.pending_friends_for_me
+user.pending_friends_by_me
+user.friends
+user.pending_friends
+user.pending_or_accepted_friends
+user.friendship friend
 
+# testers
+user.is_friends_with? friend
+user.is_pending_friends_with? friend
+user.is_friends_or_pending_with? friend
+
+# crud
+user.request_friendship_with friend
+user.delete_friendship_with friend
+user.accept_friendship_with friend
+user.become_friends_with! friend

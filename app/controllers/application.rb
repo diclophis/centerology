@@ -12,4 +12,18 @@ class ApplicationController < ActionController::Base
   # Uncomment this to filter the contents of submitted sensitive data parameters
   # from your application log (in this case, all fields with names like "password"). 
   # filter_parameter_logging :password
+  
+  before_filter :find_person
+
+  def find_person
+    redirect_to new_person_url unless current_person
+  end
+
+  def current_person
+    if session[:identity_url] then
+      @current_person = Person.find_by_identity_url(session[:identity_url])
+    else
+      false
+    end
+  end
 end

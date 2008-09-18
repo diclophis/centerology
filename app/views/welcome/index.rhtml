@@ -1,3 +1,25 @@
 <h1>
   Welcome to Centerology
 </h1>
+
+You are: <%=@current_person.nickname%>
+<br/>
+
+You have: <%=@current_person.images.length%>
+
+<% tag_cloud(@current_person.findings.tag_counts, %w(css1 css2 css3 css4)) do |tag, css_class| %>
+  <%= link_to tag.name, { :action => :tag, :id => tag.name }, :class => css_class %>
+<% end %>
+
+<% form_tag({:controller => :findings, :action => :create})do %>
+  <%=text_field_tag(:title)%>
+  <%=text_field_tag(:src)%>
+  <%=text_field_tag(:tag_list)%>
+  <%=submit_tag(:go)%>
+<% end %>
+
+<% Image.find(:all).each { |image| %>
+  <%=image.findings.first.person.nickname%>
+<% } %>
+
+<%=Person.find(:all, :include => :findings)%>

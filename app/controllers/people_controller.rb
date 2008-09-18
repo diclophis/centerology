@@ -3,6 +3,8 @@
      #response.add_extension_arg('sreg','required','email,nickname') # <== here...
 class PeopleController < ApplicationController
 
+  skip_before_filter :find_person
+
   def new
     # TODO: show a form requesting the user's OpenID
   end

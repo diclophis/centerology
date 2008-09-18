@@ -71,3 +71,6 @@ require 'openid'
 require 'openid/store/filesystem'
 require 'openid/consumer'
 require 'openid/extensions/sreg'
+
+TagList.delimiter = " "
+
