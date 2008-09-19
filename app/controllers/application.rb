@@ -26,4 +26,14 @@ class ApplicationController < ActionController::Base
       false
     end
   end
+
+  protected
+    helper_method :current_page
+    def current_page
+      params[:page].to_i < 1 ? 1 : params[:page].to_i
+    end
+    helper_method :current_per_page
+    def current_per_page
+      10
+    end
 end

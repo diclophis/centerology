@@ -11,9 +11,17 @@ You have: <%=@current_person.images.length%>
   <%= link_to tag.name, { :action => :tag, :id => tag.name }, :class => css_class %>
 <% end %>
 
-<% form_tag({:controller => :findings, :action => :create})do %>
+<% form_tag({:controller => :findings, :action => :create}) do %>
   <%=text_field_tag(:title)%>
   <%=text_field_tag(:src)%>
+  <%=text_field_tag(:tag_list)%>
+  <%=submit_tag(:go)%>
+<% end %>
+
+<br/>
+
+<% form_tag({:controller => :findings, :action => :duplicate}) do %>
+  <%=text_field_tag(:image_id)%>
   <%=text_field_tag(:tag_list)%>
   <%=submit_tag(:go)%>
 <% end %>
@@ -23,3 +31,7 @@ You have: <%=@current_person.images.length%>
 <% } %>
 
 <%=Person.find(:all, :include => :findings)%>
+
+<%=h(@recent_images.inspect)%>
+
+<%=will_paginate(@recent_images)%>
