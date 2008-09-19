@@ -13,21 +13,19 @@ class ApplicationController < ActionController::Base
   # from your application log (in this case, all fields with names like "password"). 
   # filter_parameter_logging :password
   
-  before_filter :find_person
-
-  def find_person
-    redirect_to new_person_url unless current_person
-  end
-
-  def current_person
-    if session[:identity_url] then
-      @current_person = Person.find_by_identity_url(session[:identity_url])
-    else
-      false
-    end
-  end
 
   protected
+    def require_person
+      redirect_to new_person_url unless current_person
+    end
+    helper_method :current_person
+    def current_person
+      if session[:identity_url] then
+        @current_person ||= Person.find_by_identity_url(session[:identity_url])
+      else
+        false
+      end
+    end
     helper_method :current_page
     def current_page
       params[:page].to_i < 1 ? 1 : params[:page].to_i
