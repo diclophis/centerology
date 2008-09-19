@@ -23,7 +23,8 @@
 <ul>
   <% @recent_people.each { |person| %>
     <li>
-      <%=h(person.inspect)%>
+      <%=link_to(person, feed_url(:person => person))%>
+      <%=person.images.count%>
     </li>
   <% } %>
 </ul>
