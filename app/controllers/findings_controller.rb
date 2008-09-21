@@ -8,11 +8,8 @@ class FindingsController < ApplicationController
     @image ||= Image.new
     @image.src = params[:image][:src]
     @image.title = params[:image][:title]
-    if @image.new_record? then
-      @finding = Finding.new
-    else
-      @finding = Finding.find_by_person_id_and_image_id(current_person, @image)
-    end
+    @finding = Finding.find_by_person_id_and_image_id(current_person, @image)
+    @finding ||= Finding.new
     @finding.tag_list = params[:tag_list]
     #maybe? @image.title = title if image.new_record?
     if request.post? then

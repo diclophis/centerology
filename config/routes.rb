@@ -33,11 +33,9 @@ ActionController::Routing::Routes.draw do |map|
 
   # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
   map.root :controller => "welcome"
-
-  map.dashboard '/dashboard', :controller => "dashboard"
   map.about '/about', :controller => "about"
-
-  map.feed '/:person', :controller => "welcome", :action => "feed"
+  map.findings '/findings', :controller => "welcome", :action => "findings"
+  map.feed '/:nickname', :controller => "welcome", :action => "feed"
 
   # See how all your routes lay out with "rake routes"
   # Install the default routes as the lowest priority.

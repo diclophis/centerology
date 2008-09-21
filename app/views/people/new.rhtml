@@ -1,8 +1,24 @@
-
-<%= flash[:error] %>
-
-<% form_tag person_path do %>
+<% form_tag(person_path) do %>
+  <p>
+    Enter your OpenID credentials below, if you are a returning user, only "Identity url" is required...
+  </p>
   <%=error_messages_for(:person)%>
-  <%= text_field_tag('openid_url')%>
-  <%= submit_tag(:go)%>
+  <ul>
+  <% fields_for(:person) { |person| %>
+    <li>
+      <%=person.label(:identity_url)%>
+      <%=person.text_field(:identity_url)%>
+    </li>
+    <li>
+      <%=person.label(:email)%>
+      <%=person.text_field(:email, {:class => :optional})%>
+    </li>
+    <li>
+      <%=person.label(:nickname)%>
+      <%=person.text_field(:nickname, {:class => :optional})%>
+    </li>
+  <% } %>
+  <li>
+    <%= submit_tag(:go)%>
+  </li>
 <% end %>

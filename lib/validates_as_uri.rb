@@ -13,7 +13,7 @@ module ActiveRecord
             #record.errors.add(field, 'Only HTTP protocol addresses can be used') unless uri.is_a?(URI::HTTP)
             raise URI::InvalidURIError.new unless uri.is_a?(URI::HTTP)
           rescue URI::InvalidURIError
-            record.errors.add(field, "The format of #{field} is not a valid uri.")
+            record.errors.add(field, "is not a valid URI")
           end
         }
       end

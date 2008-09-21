@@ -18,10 +18,16 @@ class ApplicationController < ActionController::Base
     def require_person
       redirect_to new_person_url unless current_person
     end
+    def login (person)
+      session[:person_id] = person.id
+    end
+    def logout
+      session.delete(:person_id)
+    end
     helper_method :current_person
     def current_person
-      if session[:identity_url] then
-        @current_person ||= Person.find_by_identity_url(session[:identity_url])
+      if session[:person_id] then
+        @current_person ||= Person.find(session[:person_id])
       else
         false
       end

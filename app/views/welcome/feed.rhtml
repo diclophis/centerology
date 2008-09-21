@@ -1,0 +1,10 @@
+<h1>
+  <%=link_to(@feeder.nickname + "'s feed", feed_url(:nickname => @feeder))%>
+</h1>
+<ul id="feed">
+  <% @feeder.findings.each { |finding| %>
+    <li>
+      <%=link_to(image_tag(finding.image.icon_permalink), finding.image.src)%>
+    </li>
+  <% } %>
+</ul>

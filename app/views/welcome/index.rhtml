@@ -5,13 +5,13 @@
         your
       </li>
       <li>
-        <%=link_to(:feed, feed_url(:person => current_person))%>
+        <%=link_to(:feed, feed_url(:nickname => current_person))%>
       </li>
       <li>
         and
       </li>
       <li>
-        <%=link_to(:dashboard, dashboard_url)%>
+        <%=link_to(:findings, findings_url)%>
       </li>
     </ul>
   <% else %>
@@ -39,7 +39,7 @@
     <ul>
       <% @recent_people.each { |person| %>
         <li>
-          <%=link_to(person, feed_url(:person => person))%>
+          <%=link_to(person, feed_url(:nickname => person))%>
           <%=person.images.count%>
         </li>
       <% } %>
