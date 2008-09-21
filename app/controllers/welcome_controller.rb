@@ -8,7 +8,7 @@ class WelcomeController < ApplicationController
       :select => "images.*, count(*) as popularity",
       :joins => "JOIN findings ON findings.image_id = images.id",
       :group => "findings.image_id",
-      :order => "popularity DESC"
+      :order => "popularity DESC, findings.created_at DESC"
     )
     @top_people = Person.paginate(
       :per_page => 10,

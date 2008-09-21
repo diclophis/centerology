@@ -38,10 +38,12 @@ class PeopleController < ApplicationController
       @person = Person.find(:first, :conditions => ["identity_url = ?", response.identity_url])
       @person ||= Person.new
       @person.identity_url = response.identity_url 
-      @person.email = sreg["email"]
-      @person.nickname = sreg["nickname"]
-      @person.email = session[:email] if @person.email.blank?
-      @person.nickname = session[:nickname] if @person.nickname.blank?
+      if @person.new_record? then
+        @person.email = sreg["email"] if @person.email.blank?
+        @person.nickname = sreg["nickname"] if @person.nickname.blank?
+        @person.email = session[:email] if @person.email.blank?
+        @person.nickname = session[:nickname] if @person.nickname.blank?
+      end
       begin
         @person.save!
         login(@person)
