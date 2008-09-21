@@ -1,0 +1,27 @@
+<h1>
+  New Finding
+</h1>
+<% form_tag() { %>
+  <%=error_messages_for(:finding, :image)%>
+  <ul>
+    <% fields_for(:finding) { |finding| %>
+      <li>
+        <%=finding.label(:tag_list)%>
+        <%=finding.text_field(:tag_list)%>
+      </li>
+    <% } %>
+    <% fields_for(:image) { |image| %>
+      <li>
+        <%=image.label(:title)%>
+        <%=image.text_field(:title)%>
+      </li>
+      <li>
+        <%=image.label(:src)%>
+        <%=image.text_field(:src)%>
+      </li>
+      <li>
+        <%=submit_tag(:go)%>
+      </li>
+    <% } %>
+  </ul>
+<% } %>
