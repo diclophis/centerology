@@ -31,6 +31,8 @@ class WelcomeController < ApplicationController
   end
   def findings
   end
+  def about
+  end
   def bookmarklet
     @js = render_to_string(:inline => "
     window.open('http://centerology.risingcode.com/findings/new?bookmarklet=1&image[src]='+encodeURIComponent(window.location)+'&image[title]='+encodeURIComponent(document.title),'_blank');
