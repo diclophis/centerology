@@ -3,7 +3,7 @@
 class FindingsController < ApplicationController
   before_filter :require_person
   def new
-    session[:bookmarklet] = params[:bookmarklet]
+    session[:bookmarklet] ||= params[:bookmarklet]
     @image = Image.find_by_src(params[:image][:src])
     @image ||= Image.new
     @image.src = params[:image][:src]
@@ -26,7 +26,8 @@ class FindingsController < ApplicationController
           @finding.save!
           if session[:bookmarklet] then
             session[:bookmarket] = nil
-            return redirect_to(@image.src)
+            #return redirect_to(@image.src)
+            return render(:inline => "<script>window.close();</script>")
           else
             flash[:success] = "saved!"
             return redirect_to(root_url)

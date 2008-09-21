@@ -1,54 +1,82 @@
-<h1>
-  Welcome to Centerology
-</h1>
-<%=render :partial => 'shared/flash' %>
-<% if current_person then %>
-  <ul>
-    <li>
-      <%=link_to(current_person, feed_url(:person => current_person))%>
-    </li>
-    <li>
-      <%=link_to(:dashboard, dashboard_url)%>
-    </li>
-  </ul>
-<% else %>
-  <ul>
-    <li>
-      <%=link_to(:about, about_url)%>
-    </li>
-    <li>
-      <%=link_to(:new?, new_person_url)%>
-    </li>
-  </ul>
-<% end %>
-<ul>
-  <% @recent_people.each { |person| %>
-    <li>
-      <%=link_to(person, feed_url(:person => person))%>
-      <%=person.images.count%>
-    </li>
-  <% } %>
-</ul>
-<ul>
-  <% @recent_images.each { |image| %>
-    <li>
-      <ul>
+<div id="header">
+  <% if current_person then %>
+    <ul>
+      <li>
+        your
+      </li>
+      <li>
+        <%=link_to(:feed, feed_url(:person => current_person))%>
+      </li>
+      <li>
+        and
+      </li>
+      <li>
+        <%=link_to(:dashboard, dashboard_url)%>
+      </li>
+    </ul>
+  <% else %>
+    <ul>
+      <li>
+        <%=link_to(:about, about_url)%>
+      </li>
+      <li>
+        /
+      </li>
+      <li>
+        <%=link_to(:new?, new_person_url)%>
+      </li>
+    </ul>
+  <% end %>
+  <h1>
+    <%=link_to(:Centerology, root_url)%>
+  </h1>
+</div>
+<div id="wrapper">
+  <div id="sidebar">
+    <h2>
+      Active People
+    </h2>
+    <ul>
+      <% @recent_people.each { |person| %>
         <li>
-          <%=link_to(image.title, image.src)%>
+          <%=link_to(person, feed_url(:person => person))%>
+          <%=person.images.count%>
         </li>
-        <li>
-          <%=truncate(image.src, 42)%>
+      <% } %>
+    </ul>
+  </div>
+  <div id="content">
+    <%=render :partial => 'shared/flash' %>
+    <ul>
+      <% @recent_images.each { |image| %>
+        <li class="image">
+          <ul>
+            <li>
+              <%=link_to(image.title, image.src)%>
+            </li>
+            <li>
+              <%=truncate(image.src, 42)%>
+            </li>
+            <li>
+              found <%=time_ago_in_words(image.latest_finding.created_at)%> ago
+            </li>
+            <li>
+              <%=link_to(image_tag(image.thumb_permalink), image.src)%>
+            </li>
+            <li>
+              <% if image.findings.count > 1 then %>
+                found by <%=image.findings.count%> other people
+              <% end %>
+            </li>
+          </ul>
         </li>
-        <li>
-          <%=time_ago_in_words(image.latest_finding.created_at)%> ago
-        </li>
-        <li>
-          <%=link_to(image_tag(image.thumb_permalink), image.src)%>
-        </li>
-        <li>
-          <%=image.findings.count%>
-        </li>
-      </ul>
-    </li>
-  <% } %>
-</ul>
+      <% } %>
+    </ul>
+    <%=will_paginate(@recent_images)%>
+  </div>
+</div>
+<div id="footer">
+  <p>
+    copyright 2008 <%=link_to(:risingcode, "http://risingcode.com")%>
+  </p>
+</div>

@@ -32,6 +32,6 @@ class ApplicationController < ActionController::Base
     end
     helper_method :current_per_page
     def current_per_page
-      10
+      5
     end
 end
