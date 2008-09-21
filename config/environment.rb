@@ -72,5 +72,13 @@ require 'openid/store/filesystem'
 require 'openid/consumer'
 require 'openid/extensions/sreg'
 require 'validates_as_uri'
-TagList.delimiter = " "
+require 'right_aws'
+require 'uuidtools'
+require 'RMagick'
 
+
+require 'aws'
+
+Fast::Cache.enable!
+
+TagList.delimiter = " "

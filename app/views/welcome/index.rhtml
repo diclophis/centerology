@@ -1,6 +1,7 @@
 <h1>
   Welcome to Centerology
 </h1>
+<%=render :partial => 'shared/flash' %>
 <% if current_person then %>
   <ul>
     <li>
@@ -28,10 +29,26 @@
     </li>
   <% } %>
 </ul>
-
-<% form_tag({:controller => :findings, :action => :create}) do %>
-  <%=text_field_tag(:title)%>
-  <%=text_field_tag(:src)%>
-  <%=text_field_tag(:tag_list)%>
-  <%=submit_tag(:go)%>
-<% end %>
+<ul>
+  <% @recent_images.each { |image| %>
+    <li>
+      <ul>
+        <li>
+          <%=link_to(image.title, image.src)%>
+        </li>
+        <li>
+          <%=truncate(image.src, 42)%>
+        </li>
+        <li>
+          <%=time_ago_in_words(image.latest_finding.created_at)%> ago
+        </li>
+        <li>
+          <%=link_to(image_tag(image.thumb_permalink), image.src)%>
+        </li>
+        <li>
+          <%=image.findings.count%>
+        </li>
+      </ul>
+    </li>
+  <% } %>
+</ul>

@@ -26,4 +26,11 @@ class WelcomeController < ApplicationController
       :order => "findings.created_at DESC"
     )
   end
+
+  def bookmarklet
+    @js = render_to_string(:inline => "
+    window.open('http://centerology.risingcode.com/findings/new?bookmarklet=1&image[src]='+encodeURIComponent(window.location)+'&image[title]='+encodeURIComponent(document.title),'_blank');
+    ").gsub!("\n", "")
+    @js = "javascript:(function(){#{@js}})()"
+  end
 end

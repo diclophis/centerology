@@ -1,4 +1,5 @@
 config/database.yml
+config/aws.rb
 tmp/*
 log/*.log
 db/schema.rb
