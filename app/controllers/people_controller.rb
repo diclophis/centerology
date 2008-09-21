@@ -22,21 +22,29 @@ class PeopleController < ApplicationController
 
   def complete
     # omplete the OpenID verification process
-    response = openid_consumer.complete(params.select { |k,v| k.include?("openid") }, complete_person_url)
+    #response = openid_consumer.complete(params.select { |k,v| k.include?("openid") }, complete_person_url)
+    openid_params = params.dup
+    openid_params.delete(:controller)
+    openid_params.delete(:action)
+    response = openid_consumer.complete(openid_params, complete_person_url)
     if response.status == :success then
       session[:identity_url] = response.identity_url
       sreg = ::OpenID::SReg::Response.from_success_response(response)
-      person = Person.find(:first, :conditions => ["identity_url = ?", session[:identity_url]])
-      person ||= Person.new
-      person.identity_url = session[:identity_url]
-      person.email = sreg["email"]
-      person.nickname = sreg["nickname"]
-      person.save!
-      redirect_to root_url
-      return
+      @person = Person.find(:first, :conditions => ["identity_url = ?", session[:identity_url]])
+      @person ||= Person.new
+      @person.identity_url = session[:identity_url]
+      @person.email = sreg["email"]
+      @person.nickname = sreg["nickname"]
+      begin
+        @person.save!
+        redirect_to root_url
+        return
+      rescue => problem
+      end
     end
+logger.debug(response.inspect)
     flash[:error] = 'Could not log on with your OpenID'
-    redirect_to(new_person_url)
+    render(:action => :new)
   end
 
   protected
