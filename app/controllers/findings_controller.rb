@@ -21,6 +21,7 @@ class FindingsController < ApplicationController
           @image.x_put(blob)
           @image.save!
           @finding.save!
+          ImageSeek.add_image(1, @image.id, "/tmp/#{@image.permalink}_main")
           if session[:bookmarklet] then
             session[:bookmarket] = nil
             #return redirect_to(@image.src)

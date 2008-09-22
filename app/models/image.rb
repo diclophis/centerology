@@ -44,7 +44,11 @@ class Image < ActiveRecord::Base
         "#{size[:cols]}x"
       end
       first.change_geometry(geometry) { |cols, rows, img|
-        Aws.put_key(x_key, self.permalink, img.resize(cols, rows).to_blob)
+        resized_blob = img.resize(cols, rows).to_blob
+        local = File.new("/tmp/#{self.permalink}_#{x_key}", "w+")
+        local.write(resized_blob)
+        local.close
+        Aws.put_key(x_key, self.permalink, resized_blob)
       }
     }
   end
