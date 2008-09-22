@@ -75,8 +75,10 @@ require 'validates_as_uri'
 require 'right_aws'
 require 'uuidtools'
 require 'RMagick'
+require 'xmlrpc/client'
 
 
+require 'imageseek'
 require 'aws'
 
 Fast::Cache.enable!
