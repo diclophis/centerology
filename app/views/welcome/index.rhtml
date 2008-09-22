@@ -81,6 +81,15 @@
                 <% } %>
               </ul>
             </div>
+            <div class="similar">
+              <ul>
+                <% image.findings.first.person.last_three_images.each { |latest_image_from_person| %>
+                  <li>
+                    <%=image_tag(latest_image_from_person.icon_permalink) unless image.id == latest_image_from_person.id%>
+                  </li>
+                <% } %>
+              </ul>
+            </div>
           </div>
         </li>
       <% } %>
