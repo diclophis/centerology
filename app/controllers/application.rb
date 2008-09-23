@@ -19,10 +19,12 @@ class ApplicationController < ActionController::Base
       session[:remembered_params] = params
     end
     def remembered_params
-      session[:remembered_params] || {:controller => :welcome, :action => :index}
+      remembered = session[:remembered_params] || {:controller => :welcome, :action => :index}
+      session[:remembered_params] = nil
+      remembered
     end
     def require_person
-      remember_params and redirect_to new_person_url unless current_person
+      flash[:notice] = "Please login first..." and remember_params and redirect_to login_url unless current_person
     end
     def authenticate (person)
       session[:person_id] = person.id

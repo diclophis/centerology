@@ -4,8 +4,9 @@ class PeopleController < ApplicationController
   def login
     if params["openid.mode"] then
       response = openid_consumer.complete(openid_params, url_for(:login))
-      pending_person.errors.add(:identity_url, "OpenID Failure") and return render unless response.status == :success
+      pending_person.errors.add(:identity_url, "OpenID Failure, please retry") and return render unless response.status == :success
       flash[:notice] = "Please register first..." and return redirect_to({:action => :register, :person => pending_person.attributes}) unless Person.exists?(:identity_url => response.identity_url)
+      raise pending_person.inspect
       return redirect_to(remembered_params)
     elsif request.post? then
       begin
@@ -13,29 +14,31 @@ class PeopleController < ApplicationController
         redirect_url = response.redirect_url(root_url, url_for(:login))
         return redirect_to redirect_url
       rescue => problem
-        @person.identity_url = params[:person][:identity_url]
-        @person.errors.add(:identity_url, problem)
+        pending_person.errors.add(:identity_url, problem)
       end
     end
   end
   def register
     if params["openid.mode"] then
       response = openid_consumer.complete(openid_params, url_for(:register))
-      pending_person.errors.add(:identity_url, "OpenID Failure") and return render unless response.status == :success
-      raise pending_person.inspect
+      pending_person.errors.add(:identity_url, "OpenID Failure, please retry") and return render unless response.status == :success
+      begin
+        pending_person.save!
+        return redirect_to(remembered_params)
+      end
     elsif request.post? then
       if pending_person.valid? then
         begin
-          response = openid_consumer.begin(params[:person][:identity_url])
-          return login if Person.exists?(:identity_url => params[:person][:identity_url])
-          if response then
+          response = openid_consumer.begin(pending_person.identity_url)
+          if Person.exists?(:identity_url => pending_person.identity_url) then
+            redirect_url = response.redirect_url(root_url, url_for(:login))
+          else
             remember_pending_person
             redirect_url = response.redirect_url(root_url, url_for(:register))
-            redirect_to redirect_url
-            return
           end
+          return redirect_to redirect_url
         rescue => problem
-          @person.errors.add(:identity_url, problem)
+          pending_person.errors.add(:identity_url, problem)
         end
       end
     else
@@ -45,7 +48,7 @@ class PeopleController < ApplicationController
   protected
     def pending_person
       unless @person
-        @person = session[:pending_person] || Person.new
+        @person = remembered_pending_person
         if params[:person] then
           @person.identity_url = params[:person][:identity_url]
           @person.nickname = params[:person][:nickname]
@@ -54,6 +57,11 @@ class PeopleController < ApplicationController
         @person.identity_url = params["openid.identity"] if @person.identity_url.blank?
       end
       @person
+    end
+    def remembered_pending_person
+      remembered = session[:pending_person] || Person.new
+      session[:pending_person] = nil
+      remembered 
     end
     def remember_pending_person
       session[:pending_person] = pending_person

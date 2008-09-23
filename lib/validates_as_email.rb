@@ -9,8 +9,11 @@ module ActiveRecord
           next if value.nil? or value.empty?
           begin
             address = TMail::Address.parse(value)
+            raise if address.domain.blank?
+            raise unless address.domain.include?(".")
+            URI.parse("http://#{address.domain}")
           rescue
-            record.errors.add(field, "is not a valid email")
+            record.errors.add(field, "is not a valid")
           end
         }
       end
