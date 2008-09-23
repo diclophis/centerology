@@ -71,13 +71,14 @@ require 'openid'
 require 'openid/store/filesystem'
 require 'openid/consumer'
 require 'openid/extensions/sreg'
-require 'validates_as_uri'
 require 'right_aws'
 require 'uuidtools'
 require 'RMagick'
 require 'xmlrpc/client'
 
 
+require 'validates_as_uri'
+require 'validates_as_email'
 require 'imageseek'
 require 'aws'
 

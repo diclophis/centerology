@@ -12,8 +12,12 @@ class ImageSeek
   end
   def self.add_image(database_id, image_id, image_path)
     return @@client.call('addImg', database_id.to_i, image_id.to_i, image_path)
+  rescue
+    true
   end
   def self.find_images_similar_to(database_id, image_id, count = 10)
     return @@client.call('queryImgID', database_id.to_i, image_id.to_i, count)
+  rescue
+    []
   end
 end

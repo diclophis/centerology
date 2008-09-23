@@ -1,6 +1,7 @@
-<% form_tag(person_path) do %>
+<%=render :partial => 'shared/flash' %>
+<% form_tag(:register) do %>
   <p>
-    Enter your OpenID credentials below, if you are a returning user, only "Identity url" is required...
+    Enter your OpenID credentials below.
   </p>
   <%=error_messages_for(:person)%>
   <ul>
@@ -11,11 +12,11 @@
     </li>
     <li>
       <%=person.label(:email)%>
-      <%=person.text_field(:email, {:class => :optional})%>
+      <%=person.text_field(:email)%>
     </li>
     <li>
       <%=person.label(:nickname)%>
-      <%=person.text_field(:nickname, {:class => :optional})%>
+      <%=person.text_field(:nickname)%>
     </li>
   <% } %>
   <li>

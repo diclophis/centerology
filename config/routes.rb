@@ -29,13 +29,17 @@ ActionController::Routing::Routes.draw do |map|
   #     # Directs /admin/products/* to Admin::ProductsController (app/controllers/admin/products_controller.rb)
   #     admin.resources :products
   #   end
-  map.resource :person, :member => { :complete => :get }
+  #map.resource :person, :member => { :complete => :get }
 
   # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
   map.root :controller => "welcome"
-  map.about '/about', :controller => "welcome", :action => "about"
+
+  map.login '/login', :controller => "people", :action => "login"
+  map.register '/register', :controller => "people", :action => "register"
+
+  map.philosophy '/philosophy', :controller => "welcome", :action => "philosophy"
   map.findings '/findings', :controller => "welcome", :action => "findings"
-  map.feed '/:nickname', :controller => "welcome", :action => "feed"
+  map.feed '/feeds/:nickname', :controller => "welcome", :action => "feed"
 
   # See how all your routes lay out with "rake routes"
   # Install the default routes as the lowest priority.

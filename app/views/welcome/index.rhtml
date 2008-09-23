@@ -17,18 +17,18 @@
   <% else %>
     <ul>
       <li>
-        <%=link_to(:about, about_url)%>
+        <%=link_to(:login, login_url)%>
       </li>
       <li>
-        /
+        or
       </li>
       <li>
-        <%=link_to(:new?, new_person_url)%>
+        <%=link_to(:register, register_url)%>
       </li>
     </ul>
   <% end %>
   <h1>
-    <%=link_to(:Centerology, root_url)%>
+    <%=link_to(:Centerology, root_url)%>, image bookmarking with a <em><%=link_to(:philosophy, philosophy_url)%></em>
   </h1>
 </div>
 <div id="wrapper">

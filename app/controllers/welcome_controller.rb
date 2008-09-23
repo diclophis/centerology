@@ -31,7 +31,7 @@ class WelcomeController < ApplicationController
   end
   def findings
   end
-  def about
+  def philosophy
   end
   def bookmarklet
     @js = render_to_string(:inline => "

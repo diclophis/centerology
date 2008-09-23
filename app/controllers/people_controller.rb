@@ -1,67 +1,70 @@
 #
 
 class PeopleController < ApplicationController
-  def new
-    # TODO: show a form requesting the user's OpenID
-    @person = Person.new
-  end
-  def create
-    # begin the OpenID verification process
-    @person = Person.new
-    begin
-      @person.identity_url = openid_url = params[:person][:identity_url]
-      session[:nickname] = params[:person][:nickname]
-      session[:email] = params[:person][:email]
-      response = openid_consumer.begin(openid_url)
-      if response then
-       sreg = OpenID::SReg::Request.new(["nickname", "email"])
-       response.add_extension(sreg)
-       redirect_url = response.redirect_url(root_url, complete_person_url)
-       redirect_to redirect_url
-       return
-      end
-    rescue => problem
-      @person.save
-    end
-
-    render :action => :new
-  end
-  def complete
-    # omplete the OpenID verification process
-    #response = openid_consumer.complete(params.select { |k,v| k.include?("openid") }, complete_person_url)
-    openid_params = params.dup
-    openid_params.delete(:controller)
-    openid_params.delete(:action)
-    response = openid_consumer.complete(openid_params, complete_person_url)
-    if response.status == :success then
-      sreg = ::OpenID::SReg::Response.from_success_response(response)
-      @person = Person.find(:first, :conditions => ["identity_url = ?", response.identity_url])
-      @person ||= Person.new
-      @person.identity_url = response.identity_url 
-      if @person.new_record? then
-        @person.email = sreg["email"] if @person.email.blank?
-        @person.nickname = sreg["nickname"] if @person.nickname.blank?
-        @person.email = session[:email] if @person.email.blank?
-        @person.nickname = session[:nickname] if @person.nickname.blank?
-      end
+  def login
+    if params["openid.mode"] then
+      response = openid_consumer.complete(openid_params, url_for(:login))
+      pending_person.errors.add(:identity_url, "OpenID Failure") and return render unless response.status == :success
+      flash[:notice] = "Please register first..." and return redirect_to({:action => :register, :person => pending_person.attributes}) unless Person.exists?(:identity_url => response.identity_url)
+      return redirect_to(remembered_params)
+    elsif request.post? then
       begin
-        @person.save!
-        login(@person)
-        #session[:identity_url] = response.identity_url
-        redirect_to root_url
-        return
+        response = openid_consumer.begin(params[:person][:identity_url])
+        redirect_url = response.redirect_url(root_url, url_for(:login))
+        return redirect_to redirect_url
       rescue => problem
+        @person.identity_url = params[:person][:identity_url]
+        @person.errors.add(:identity_url, problem)
       end
     end
-logger.debug(response.inspect)
-    flash[:error] = 'Could not log on with your OpenID'
-    render(:action => :new)
   end
-
+  def register
+    if params["openid.mode"] then
+      response = openid_consumer.complete(openid_params, url_for(:register))
+      pending_person.errors.add(:identity_url, "OpenID Failure") and return render unless response.status == :success
+      raise pending_person.inspect
+    elsif request.post? then
+      if pending_person.valid? then
+        begin
+          response = openid_consumer.begin(params[:person][:identity_url])
+          return login if Person.exists?(:identity_url => params[:person][:identity_url])
+          if response then
+            remember_pending_person
+            redirect_url = response.redirect_url(root_url, url_for(:register))
+            redirect_to redirect_url
+            return
+          end
+        rescue => problem
+          @person.errors.add(:identity_url, problem)
+        end
+      end
+    else
+      pending_person
+    end
+  end
   protected
-
+    def pending_person
+      unless @person
+        @person = session[:pending_person] || Person.new
+        if params[:person] then
+          @person.identity_url = params[:person][:identity_url]
+          @person.nickname = params[:person][:nickname]
+          @person.email = params[:person][:email]
+        end
+        @person.identity_url = params["openid.identity"] if @person.identity_url.blank?
+      end
+      @person
+    end
+    def remember_pending_person
+      session[:pending_person] = pending_person
+    end
+    def openid_params
+      cleaned = params.dup
+      cleaned.delete(:controller)
+      cleaned.delete(:action)
+      cleaned
+    end
     def openid_consumer
       @openid_consumer ||= OpenID::Consumer.new(session, OpenID::Store::Filesystem.new("#{RAILS_ROOT}/tmp/openid"))
     end
-
 end

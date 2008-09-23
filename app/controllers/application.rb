@@ -15,13 +15,19 @@ class ApplicationController < ActionController::Base
   
 
   protected
-    def require_person
-      redirect_to new_person_url unless current_person
+    def remember_params
+      session[:remembered_params] = params
     end
-    def login (person)
+    def remembered_params
+      session[:remembered_params] || {:controller => :welcome, :action => :index}
+    end
+    def require_person
+      remember_params and redirect_to new_person_url unless current_person
+    end
+    def authenticate (person)
       session[:person_id] = person.id
     end
-    def logout
+    def forget
       session.delete(:person_id)
     end
     helper_method :current_person
