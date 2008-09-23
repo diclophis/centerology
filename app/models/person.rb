@@ -13,10 +13,14 @@ class Person < ActiveRecord::Base
   validates_presence_of :nickname
   validates_uniqueness_of :nickname
   def normalize_identity_url
-    unless identity_url.index("http") == 0 then
-      self.identity_url = "http://#{identity_url}"
+    begin
+      unless identity_url.index("http") == 0 then
+        self.identity_url = "http://#{identity_url}"
+      end
+      self.identity_url = OpenID::normalize_url(identity_url)
+    rescue
+      self.identity_url = ""
     end
-    self.identity_url = OpenID::normalize_url(identity_url)
   end
   def to_s
     nickname

@@ -10,10 +10,11 @@ class PeopleController < ApplicationController
       return redirect_to(remembered_params)
     elsif request.post? then
       begin
-        response = openid_consumer.begin(params[:person][:identity_url])
+        response = openid_consumer.begin(pending_person.normalize_identity_url)
         redirect_url = response.redirect_url(root_url, url_for(:login))
         return redirect_to redirect_url
       rescue => problem
+        logger.debug(problem.backtrace.join("\n"))
         pending_person.errors.add(:identity_url, problem)
       end
     end

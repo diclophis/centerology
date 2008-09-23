@@ -124,3 +124,18 @@ mysql> SELECT DISTINCT people.id FROM `findings` JOIN people ON people.id = find
 |  1 |
 +----+
 2 rows in set (0.00 sec)
+
+            <div class="similar">
+              <ul>
+                <li>
+                  <p>
+                    is similar to...
+                  </p>
+                </li>
+                <% ImageSeek.find_images_similar_to(1, image.id, 3).each { |image_id, similarity| %>
+                  <li>
+                    <%=image_tag(Image.find(image_id).icon_permalink) unless image.id == image_id%>
+                  </li>
+                <% } %>
+              </ul>
+            </div>

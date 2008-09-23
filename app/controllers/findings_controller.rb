@@ -33,6 +33,7 @@ class FindingsController < ApplicationController
         end
       rescue => problem
         logger.debug(problem)
+        @image.errors.add(:src, "is probably not an image, or not visible")
       end
     end
   end
