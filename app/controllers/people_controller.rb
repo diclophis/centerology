@@ -5,8 +5,8 @@ class PeopleController < ApplicationController
     if params["openid.mode"] then
       response = openid_consumer.complete(openid_params, url_for(:login))
       pending_person.errors.add(:identity_url, "OpenID Failure, please retry") and return render unless response.status == :success
-      flash[:notice] = "Please register first..." and return redirect_to({:action => :register, :person => pending_person.attributes}) unless Person.exists?(:identity_url => response.identity_url)
-      raise pending_person.inspect
+      flash[:notice] = "Please register first..." and return redirect_to({:action => :register, :person => pending_person.attributes}) unless Person.exists?(:identity_url => pending_person.normalize_identity_url)
+      authenticate(Person.find_by_identity_url(pending_person.normalize_identity_url))
       return redirect_to(remembered_params)
     elsif request.post? then
       begin
@@ -24,13 +24,14 @@ class PeopleController < ApplicationController
       pending_person.errors.add(:identity_url, "OpenID Failure, please retry") and return render unless response.status == :success
       begin
         pending_person.save!
+        authenticate(pending_person)
         return redirect_to(remembered_params)
       end
     elsif request.post? then
       if pending_person.valid? then
         begin
           response = openid_consumer.begin(pending_person.identity_url)
-          if Person.exists?(:identity_url => pending_person.identity_url) then
+          if Person.exists?(:identity_url => pending_person.normalize_identity_url) then
             redirect_url = response.redirect_url(root_url, url_for(:login))
           else
             remember_pending_person
