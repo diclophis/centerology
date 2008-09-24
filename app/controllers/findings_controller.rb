@@ -1,7 +1,7 @@
 #
 
 class FindingsController < ApplicationController
-  before_filter :require_person
+  before_filter :require_person, :except => [:tagged]
   def tagged
     @tag = params[:id]
     flash[:notice] = "You must supply a tag" and return redirect_to(root_url) if @tag.blank?
