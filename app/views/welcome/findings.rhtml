@@ -2,5 +2,28 @@
   Your findings
 </h1>
 <p>
-  #TODO
+  These are your findings, you can update the tags...
 </p>
+<% current_person.findings.each { |finding| %>
+  <% form_tag({:controller => :findings, :action => :update, :id => finding.id}) { %>
+    <ul>
+      <% fields_for(finding) { |ff| %>
+        <li>
+          <%=image_tag(finding.image.icon_permalink)%>
+        </li>
+        <li>
+          <%=ff.label(:tag_list)%>
+          <%=ff.text_field(:tag_list)%>
+        </li>
+      <% } %>
+      <li>
+        <%=submit_tag(:update)%>
+      </li>
+    </ul>
+  <% } %>
+<% } %>
+<ul>
+  <li>
+    <%=link_to(:return, root_url)%>
+  </li>
+</ul>

@@ -2,6 +2,25 @@
 
 class FindingsController < ApplicationController
   before_filter :require_person
+  def tagged
+    @tag = params[:id]
+    flash[:notice] = "You must supply a tag" and return redirect_to(root_url) if @tag.blank?
+    @findings = Finding.find_tagged_with(@tag)
+  end
+  def update
+    if request.post? then
+      begin
+        Finding.transaction do
+          @finding = Finding.find(params[:id])
+          @finding.tag_list = params[:finding][:tag_list]
+          @finding.save!
+          return redirect_to(findings_url)
+        end
+      rescue => problem
+        raise problem
+      end
+    end
+  end
   def new
     session[:bookmarklet] ||= params[:bookmarklet]
     @image = Image.find_by_src(params[:image][:src])

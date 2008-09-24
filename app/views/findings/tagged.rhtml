@@ -1,0 +1,15 @@
+<h1>
+  <%=link_to("Findings tagged with #{@tag}", {:controller => :findings, :action => :tagged, :id => @tag})%>
+</h1>
+<ul>
+  <% @findings.each { |finding| %>
+    <li>
+      <%=image_tag(finding.image.icon_permalink)%>
+    </li>
+  <% } %>
+</ul>
+<ul>
+  <li>
+    <%=link_to(:return, root_url)%>
+  </li>
+</ul>

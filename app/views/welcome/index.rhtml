@@ -49,7 +49,7 @@
     <ul>
       <li>
         <h2>
-          Sponsor
+          Sponsored By
         </h2>
       </li>
       <li id="ads">
@@ -78,6 +78,13 @@
                 </li>
                 <li>
                   <%=link_to(image_tag(image.thumb_permalink), image.src)%>
+                </li>
+                <li>
+                  <% unless image.findings.first.tag_list.blank? then %>
+                    <% image.findings.first.tags.each { |tag| %>
+                      <%=link_to(tag.name, {:controller => :findings, :action => :tagged, :id => tag.name})%>
+                    <% } %>
+                  <% end %>
                 </li>
                 <li>
                   <% if image.findings.count > 1 then %>
