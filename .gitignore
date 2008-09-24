@@ -1,5 +1,6 @@
 config/database.yml
 config/aws.rb
+config/gmail.rb
 tmp/*
 log/*.log
 db/schema.rb

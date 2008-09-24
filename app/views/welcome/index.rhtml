@@ -55,7 +55,7 @@
               <ul>
                 <li>
                   <p>
-                    <%=link_to(truncate(image.title, 50), image.src)%>
+                    <%=link_to(h(truncate(image.title, 50)), image.src)%>
                     <br/>
                     <%=truncate(image.src, 42)%>
                     <br/>

@@ -83,9 +83,8 @@ require 'validates_as_uri'
 require 'validates_as_email'
 require 'imageseek'
 require 'aws'
+require 'smtp_tls'
+require 'gmail'
 
 Fast::Cache.enable!
-
 TagList.delimiter = " "
-
-ActionMailer::Base.delivery_method = :sendmail
