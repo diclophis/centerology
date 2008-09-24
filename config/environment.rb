@@ -65,6 +65,8 @@ Rails::Initializer.run do |config|
 
   # Activate observers that should always be running
   # config.active_record.observers = :cacher, :garbage_collector
+
+  config.action_mailer.default_url_options = { :host => "centerology.com" }
 end
 
 require 'openid'
@@ -85,3 +87,5 @@ require 'aws'
 Fast::Cache.enable!
 
 TagList.delimiter = " "
+
+ActionMailer::Base.delivery_method = :sendmail

@@ -1,0 +1,5 @@
+Hello <%=@person.nickname%>,
+
+You will need to finish your activation by loading this:
+
+<%=url_for({:only_path => false, :controller => :people, :action => :activate, :id => @person.id, :activation_code => @person.id}) %>

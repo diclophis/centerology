@@ -1,0 +1,25 @@
+<h1>
+  Login
+</h1>
+<% form_tag do %>
+  <p>
+    Enter your OpenID credentials below.
+  </p>
+  <%=render :partial => 'shared/flash' %>
+  <%=error_messages_for(:person)%>
+  <ul>
+  <% fields_for(:person) { |person| %>
+    <li>
+      <%=person.label(:identity_url)%>
+      <%=person.text_field(:identity_url, {:id => "openid_identifier"})%>
+    </li>
+  <% } %>
+  <li>
+    <%=submit_tag(:submit)%>
+    or
+    <%=link_to(:return, root_url)%>
+    or
+    <%=link_to(:register, register_url)%>
+  </li>
+<% end %>
+<%=render :partial => "shared/openid_selector"%>
