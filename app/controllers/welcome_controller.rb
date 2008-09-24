@@ -36,7 +36,7 @@ class WelcomeController < ApplicationController
   def bookmarklet
     new_findings_url = url_for({:controller => :findings, :action => :new})
     @js = render_to_string(:inline => "
-    window.open('#{new_findings_url}?bookmarklet=1&image[src]='+encodeURIComponent(window.location)+'&image[title]='+encodeURIComponent(document.title),'_blank');
+    window.open('#{new_findings_url}?bookmarklet=1&finding[tag_list]=&image[src]='+encodeURIComponent(window.location)+'&image[title]='+encodeURIComponent(document.title),'_blank');
     ").gsub!("\n", "")
     @js = "javascript:(function(){#{@js}})()"
   end
