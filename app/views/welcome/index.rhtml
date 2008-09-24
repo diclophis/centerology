@@ -33,21 +33,28 @@
 </div>
 <div id="wrapper">
   <div id="sidebar">
-    <h2>
-      Active People
-    </h2>
     <ul>
+      <li>
+        <h2>
+          Active People
+        </h2>
+      </li>
       <% @recent_people.each { |person| %>
         <li>
           <%=link_to(person, feed_url(:nickname => person))%>
           <%=person.images.count%>
         </li>
       <% } %>
+      <li id="ads">
+        <%=render :partial => "shared/adsense"%>
+      </li>
     </ul>
   </div>
   <div id="content">
-    <%=render :partial => 'shared/flash' %>
     <ul>
+      <li>
+        <%=render :partial => 'shared/flash' %>
+      </li>
       <% @recent_images.each { |image| %>
         <li class="image">
           <div class="imagewrapper">

@@ -1,5 +1,5 @@
 Hello <%=@person.nickname%>,
 
-You will need to finish your activation by loading this:
+Please finish your registration by following this link:
 
-<%=url_for({:only_path => false, :controller => :people, :action => :activate, :id => @person.id, :activation_code => @person.id}) %>
+<%=url_for({:only_path => false, :controller => :people, :action => :activate, :id => @person.activation_code}) %>

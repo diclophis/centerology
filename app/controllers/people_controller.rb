@@ -25,6 +25,7 @@ class PeopleController < ApplicationController
       pending_person.errors.add(:identity_url, "OpenID Failure, please retry") and return render unless response.status == :success
       begin
         pending_person.save!
+        Mercury.deliver_activation_code(pending_person)
         authenticate(pending_person)
         return redirect_to(remembered_params)
       end
@@ -45,6 +46,17 @@ class PeopleController < ApplicationController
       end
     else
       pending_person
+    end
+  end
+  def activate
+    begin
+      person_to_activate = Person.find_by_activation_code(params[:id])
+      person_to_activate.activate!
+      return redirect_to(bookmarklet_url)
+    rescue => problem
+      logger.debug(problem)
+      flash[:notice] = "There was a problem activating your account"
+      return redirect_to(root_url)
     end
   end
   protected
