@@ -1,6 +1,7 @@
 class Tag < ActiveRecord::Base
   has_many :taggings, :dependent => :destroy
   
+  before_validation :normalize_name
   validates_presence_of :name
   validates_uniqueness_of :name
   
@@ -22,6 +23,10 @@ class Tag < ActiveRecord::Base
   
   def count
     read_attribute(:count).to_i
+  end
+
+  def normalize_name
+    self.name = self.name.gsub(/[^a-zA-Z0-9]/, '').downcase
   end
   
   class << self

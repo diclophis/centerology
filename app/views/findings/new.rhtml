@@ -24,4 +24,11 @@
       </li>
     <% } %>
   </ul>
+  <ul id="current_persons_tags">
+    <% tag_cloud(current_person.findings.tag_counts, %w(css1 css2 css3 css4)) { |tag, css_class| %>
+      <li>
+        <%=link_to(tag.name, "#", {:id => tag.name + "_tag", :class => "tag"})%>
+      </li>
+    <% } %>
+  </ul>
 <% } %>

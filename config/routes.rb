@@ -37,6 +37,7 @@ ActionController::Routing::Routes.draw do |map|
   map.login '/login', :controller => "people", :action => "login"
   map.register '/register', :controller => "people", :action => "register"
   map.bookmarklet '/bookmarklet', :controller => "welcome", :action => "bookmarklet"
+  map.cloud '/cloud', :controller => "welcome", :action => "cloud"
 
   map.philosophy '/philosophy', :controller => "welcome", :action => "philosophy"
   map.findings '/findings', :controller => "welcome", :action => "findings"

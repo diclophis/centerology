@@ -52,6 +52,7 @@ class PeopleController < ApplicationController
     begin
       person_to_activate = Person.find_by_activation_code(params[:id])
       person_to_activate.activate!
+#TODO: double check against current_person?
       return redirect_to(bookmarklet_url)
     rescue => problem
       logger.debug(problem)

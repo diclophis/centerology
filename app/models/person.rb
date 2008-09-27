@@ -12,6 +12,7 @@ class Person < ActiveRecord::Base
   validates_as_email :email
   validates_presence_of :email
   validates_presence_of :nickname
+  validates_format_of :nickname, :with => /^[a-zA-Z0-9]+$/
   validates_uniqueness_of :nickname
   validates_presence_of :activation_code
   def assign_activation_code

@@ -40,4 +40,6 @@ class WelcomeController < ApplicationController
     ").gsub!("\n", "")
     @js = "javascript:(function(){#{@js}})()"
   end
+  def cloud
+  end
 end

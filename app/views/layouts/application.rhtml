@@ -24,6 +24,8 @@
       .css2 { font-size: 1.2em; }
       .css3 { font-size: 1.4em; }
       .css4 { font-size: 1.6em; }
+      .completions { border: 2px solid #c3c3c3; background: white; }
+      .selected { text-decoration: underline; }
       #header { margin: 0 0 0 0; }
       #header h1 { padding: 0px 0 70px 140px; background: url(/images/logo.png) no-repeat top left; } 
       #header ul { float: right; margin: 0 0 0 0; }
@@ -35,7 +37,9 @@
       #footer { padding: 1em 0 0.25 0; clear: both; }
       #footer p { border-top: 1px solid #c3c3c3; text-align: right; padding: 0.25em; }
       #feed li { display: inline; }
+      #current_persons_tags li { display: inline; }
     </style>
+    <%=javascript_include_tag(:defaults)%>
   </head>
   <body>
     <%=@content_for_layout %>
