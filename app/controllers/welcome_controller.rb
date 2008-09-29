@@ -28,6 +28,10 @@ class WelcomeController < ApplicationController
   end
   def feed
     @feeder = Person.find_by_nickname(params[:nickname])
+    respond_to { |format|
+      format.html
+      format.rss
+    }
   end
   def findings
   end

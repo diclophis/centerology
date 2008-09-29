@@ -43,6 +43,7 @@
       #current_persons_tags li { display: inline; }
     </style>
     <%=javascript_include_tag(:defaults)%>
+    <%=auto_discovery_link_tag(:rss, rss_feed_url(@feeder)) if @feeder%>
   </head>
   <body>
     <%=@content_for_layout %>
