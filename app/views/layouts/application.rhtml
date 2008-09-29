@@ -3,7 +3,8 @@
   <head>
     <title>Centerology</title>
     <style type="text/css">
-      a { text-decoration: none; }
+      a { text-decoration: none; outline: none; }
+      a:active { outline: none; }
       div,li,h1,h2,p,a { font-family: serif; margin: 0; padding: 0; }
       ul { list-style: none; margin: 0 0 0 0; padding: 0; }
       img { border: 0; }
@@ -25,7 +26,9 @@
       .css3 { font-size: 1.4em; }
       .css4 { font-size: 1.6em; }
       .completions { border: 2px solid #c3c3c3; background: white; }
-      .selected { text-decoration: underline; }
+      .completions li { padding: 0.25em; } 
+      .selected { background-color: #c3c3c3; }
+      .tag { padding: 0.25em; }
       #header { margin: 0 0 0 0; }
       #header h1 { padding: 0px 0 70px 140px; background: url(/images/logo.png) no-repeat top left; } 
       #header ul { float: right; margin: 0 0 0 0; }
@@ -34,7 +37,7 @@
       #sidebar ul { margin: 0 0 1em 0; }
       #ads { margin: 0 0 0 0; }
       #content { width: 81%; float: right; }
-      #footer { padding: 1em 0 0.25 0; clear: both; }
+      #footer { padding: 1em 0 0.25em 0; clear: both; }
       #footer p { border-top: 1px solid #c3c3c3; text-align: right; padding: 0.25em; }
       #feed li { display: inline; }
       #current_persons_tags li { display: inline; }

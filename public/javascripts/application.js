@@ -17,7 +17,10 @@ Event.observe(window, 'load', function () {
           t.addClassName('selected');
         }
       });
-      input.value = selected_tags.join(" ") + " ";
+      input.value = selected_tags.join(" ");
+      if (input.value.length > 0) {
+        input.value += " ";
+      }
     };
     tags = $$('a.tag').collect(function(a) {
       Event.observe(a, 'click', function(click) {
@@ -32,8 +35,11 @@ Event.observe(window, 'load', function () {
       return a.innerHTML;
     });
     completer = new Autocompleter.Local(element, completions, tags, {
+      frequency: 0.05,
       tokens: [' '],
       afterUpdateElement: after_update
     });
+    element.focus();
+    after_update(element);
   });
 });

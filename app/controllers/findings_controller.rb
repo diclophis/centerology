@@ -25,15 +25,15 @@ class FindingsController < ApplicationController
     session[:bookmarklet] ||= params[:bookmarklet]
     @image = Image.find_by_src(params[:image][:src])
     @image ||= Image.new
-    @image.src = params[:image][:src]
-    @image.title = params[:image][:title]
     @finding = Finding.find_by_person_id_and_image_id(current_person, @image)
     @finding ||= Finding.new
-    @finding.tag_list = params[:finding][:tag_list]
     #maybe? @image.title = title if image.new_record?
     if request.post? then
       begin
         Finding.transaction do
+          @image.src = params[:image][:src]
+          @image.title = params[:image][:title]
+          @finding.tag_list = params[:finding][:tag_list]
           @finding.person = current_person
           @finding.image = @image
           blob = Fast.fetch(@image.src)
@@ -43,7 +43,6 @@ class FindingsController < ApplicationController
           #ImageSeek.add_image(1, @image.id, "/tmp/#{@image.permalink}_main")
           if session[:bookmarklet] then
             session[:bookmarket] = nil
-            #return redirect_to(@image.src)
             return render(:inline => "<script>window.close();</script>")
           else
             flash[:success] = "saved!"

@@ -138,6 +138,10 @@ Autocompleter.Base = Class.create({
          return;
        case Event.KEY_LEFT:
        case Event.KEY_RIGHT:
+         this.selectEntry();
+         this.hide();
+         this.active = false;
+         Event.stop(event);
          return;
        case Event.KEY_UP:
          this.markPrevious();
