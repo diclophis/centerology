@@ -81,7 +81,8 @@
                 </li>
                 <li>
                   <% unless image.findings.first.tag_list.blank? then %>
-                    <%=image.findings.first.person.nickname%> thinks this is
+                    <%=image.findings.first.person.nickname%>
+                    tagged this as
                     <% image.findings.first.tags.each { |tag| %>
                       <%=link_to(tag.name, {:controller => :findings, :action => :tagged, :id => tag.name})%>
                     <% } %>
