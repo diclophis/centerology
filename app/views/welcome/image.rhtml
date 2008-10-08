@@ -29,6 +29,11 @@
     <% end %>
   </li>
   <li>
+    <h3>
+      Related to...
+    </h3>
+  </li>
+  <li>
     <ul class="findings">
       <% @image.similar_images.each { |similar_image| %>
         <li>
@@ -38,9 +43,9 @@
     </ul>
   </li>
   <li>
-    <p>
+    <h3>
       <%=@image.findings.first.person.nickname%> recently found...
-    </p>
+    </h3>
   </li>
   <li>
     <ul class="findings">
