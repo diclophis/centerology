@@ -1,115 +1,45 @@
-<div id="header">
-  <% if current_person then %>
-    <ul>
-      <li>
-        your
-      </li>
-      <li>
-        <%=link_to(:feed, feed_url(:nickname => current_person))%>
-      </li>
-      <li>
-        and
-      </li>
-      <li>
-        <%=link_to(:findings, findings_url)%>
-      </li>
-    </ul>
-  <% else %>
-    <ul>
-      <li>
-        <%=link_to(:login, login_url)%>
-      </li>
-      <li>
-        or
-      </li>
-      <li>
-        <%=link_to(:register, register_url)%>
-      </li>
-    </ul>
-  <% end %>
-  <h1>
-    <%=link_to(:Centerology, root_url)%>, image bookmarking with a <em><%=link_to(:philosophy, philosophy_url)%></em>
-  </h1>
-</div>
-<div id="wrapper">
-  <div id="sidebar">
-    <ul>
-      <li>
-        <h2>
-          Active People
-        </h2>
-      </li>
-      <% recent_people.each { |person| %>
-        <li>
-          <%=link_to(person, feed_url(:nickname => person))%>
-          <%=person.images.count%>
-        </li>
-      <% } %>
-    </ul>
-    <ul>
-      <li>
-        <h2>
-          Sponsored By
-        </h2>
-      </li>
-      <li id="ads">
-        <%=render :partial => "shared/adsense"%>
-      </li>
-    </ul>
-  </div>
-  <div id="content">
-    <ul>
-      <li>
-        <%=render :partial => 'shared/flash' %>
-      </li>
-      <li class="image">
-        <div class="imagewrapper">
-          <div class="primary">
-            <ul>
-              <li>
-                <p>
-                  <%=link_to(h(truncate(@image.title, 50)), @image.src)%>
-                  <br/>
-                  <%=truncate(@image.src, 42)%>
-                  <br/>
-                  found <%=time_ago_in_words(@image.latest_finding.created_at)%> ago
-                </p>
-              </li>
-              <li>
-                <%=link_to(image_tag(@image.thumb_permalink), @image.src)%>
-              </li>
-              <li>
-                <% unless @image.findings.first.tag_list.blank? then %>
-                  <%=@image.findings.first.person.nickname%>
-                  tagged this as
-                  <% @image.findings.first.tags.each { |tag| %>
-                    <%=link_to(tag.name, {:controller => :findings, :action => :tagged, :id => tag.name})%>
-                  <% } %>
-                <% end %>
-              </li>
-              <li>
-                <% if @image.findings.count > 1 then %>
-                  found by <%=@image.findings.count%> other people
-                <% end %>
-              </li>
-            </ul>
-          </div>
-          <div class="similar">
-            <ul>
-              <% @image.similar_images.each { |similar_image| %>
-                <li>
-                  <%=link_to(image_tag(similar_image.icon_permalink), image_url(similar_image.permalink))%>
-                </li>
+<ul>
+  <li class="image">
+    <div class="imagewrapper">
+      <div class="primary">
+        <ul>
+          <li>
+            <p>
+              <%=link_to(h(truncate(@image.title, 50)), @image.src)%>
+              <br/>
+              <%=truncate(@image.src, 42)%>
+              <br/>
+              found <%=time_ago_in_words(@image.latest_finding.created_at)%> ago
+            </p>
+          </li>
+          <li>
+            <%=link_to(image_tag(@image.thumb_permalink), @image.src)%>
+          </li>
+          <li>
+            <% unless @image.findings.first.tag_list.blank? then %>
+              <%=@image.findings.first.person.nickname%>
+              tagged this as
+              <% @image.findings.first.tags.each { |tag| %>
+                <%=link_to(tag.name, {:controller => :findings, :action => :tagged, :id => tag.name})%>
               <% } %>
-            </ul>
-          </div>
-        </div>
-      </li>
-    </ul>
-  </div>
-</div>
-<div id="footer">
-  <p>
-    &copy; 2008 <%=link_to("Land of the Rising Code", "http://risingcode.com")%>
-  </p>
-</div>
+            <% end %>
+          </li>
+          <li>
+            <% if @image.findings.count > 1 then %>
+              found by <%=@image.findings.count%> other people
+            <% end %>
+          </li>
+        </ul>
+      </div>
+      <div class="similar">
+        <ul>
+          <% @image.similar_images.each { |similar_image| %>
+            <li>
+              <%=link_to(image_tag(similar_image.icon_permalink), image_url(similar_image.permalink))%>
+            </li>
+          <% } %>
+        </ul>
+      </div>
+    </div>
+  </li>
+</ul>

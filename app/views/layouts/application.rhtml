@@ -41,12 +41,89 @@
       #footer p { border-top: 1px solid #c3c3c3; text-align: right; padding: 0.25em; }
       #feed li { display: inline; }
       #current_persons_tags li { display: inline; }
+      .pagination { background: white; }
+      .pagination a, .pagination span { padding: .2em .5em; display: block; float: left; margin-right: 1px; }
+      .pagination span.disabled { border: 1px solid black; }
+      .pagination span.current { font-weight: bold; background: #c3c3c3; color: white; border: 1px solid black; }
+      .pagination a { text-decoration: none; color: black; border: 1px solid #c3c3c3; }
+      .pagination a:hover, .pagination a:focus { color: black; border-color: black; }
+      .pagination:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+      * html .pagination { height: 1%; }
+      *:first-child+html .pagination { overflow: hidden; }
     </style>
     <%=javascript_include_tag(:defaults)%>
     <%=auto_discovery_link_tag(:rss, rss_feed_url(@feeder)) if @feeder%>
   </head>
   <body>
-    <%=@content_for_layout %>
+    <div id="header">
+      <% if current_person then %>
+        <ul>
+          <li>
+            your
+          </li>
+          <li>
+            <%=link_to(:feed, feed_url(:nickname => current_person))%>
+          </li>
+          <li>
+            and
+          </li>
+          <li>
+            <%=link_to(:findings, findings_url)%>
+          </li>
+        </ul>
+      <% else %>
+        <ul>
+          <li>
+            <%=link_to(:login, login_url)%>
+          </li>
+          <li>
+            or
+          </li>
+          <li>
+            <%=link_to(:register, register_url)%>
+          </li>
+        </ul>
+      <% end %>
+      <h1>
+        <%=link_to(:Centerology, root_url)%>, image bookmarking with a <em><%=link_to(:philosophy, philosophy_url)%></em>
+      </h1>
+    </div>
+    <div id="wrapper">
+      <div id="sidebar">
+        <ul>
+          <li>
+            <h2>
+              Active People
+            </h2>
+          </li>
+          <% recent_people.each { |person| %>
+            <li>
+              <%=link_to(person, feed_url(:nickname => person))%>
+              <%=person.images.count%>
+            </li>
+          <% } %>
+        </ul>
+        <ul>
+          <li>
+            <h2>
+              Sponsored By
+            </h2>
+          </li>
+          <li id="ads">
+            <%=render :partial => "shared/adsense"%>
+          </li>
+        </ul>
+      </div>
+      <div id="content">
+        <%=render :partial => 'shared/flash' %>
+        <%=@content_for_layout %>
+      </div>
+    </div>
+    <div id="footer">
+      <p>
+        &copy; 2008 <%=link_to("Land of the Rising Code", "http://risingcode.com")%>
+      </p>
+    </div>
     <%=render :partial => "shared/urchin"%>
   </body>
 </html>
