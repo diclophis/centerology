@@ -9,8 +9,8 @@
   <ul>
   <% fields_for(:person) { |person| %>
     <li>
-      <%=person.label(:identity_url)%>
-      <%=person.text_field(:identity_url, {:id => "openid_identifier"})%>
+      <%=person.label(:nickname)%>
+      <%=person.text_field(:nickname)%>
     </li>
   <% } %>
   <li>
@@ -21,4 +21,3 @@
     <%=link_to(:register, register_url)%>
   </li>
 <% end %>
-<%=render :partial => "shared/openid_selector"%>

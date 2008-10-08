@@ -4,18 +4,20 @@ class PeopleController < ApplicationController
   def login
     if params["openid.mode"] then
       response = openid_consumer.complete(openid_params, url_for(:login))
-      pending_person.errors.add(:identity_url, "OpenID Failure, please retry") and return render unless response.status == :success
-      flash[:notice] = "Please register first..." and return redirect_to({:action => :register, :person => pending_person.attributes}) unless Person.exists?(:identity_url => pending_person.normalize_identity_url)
-      authenticate(Person.find_by_identity_url(pending_person.normalize_identity_url))
+      pending_person.errors.add(:nickname, "OpenID Failure, please retry") and return render unless response.status == :success
+      flash[:notice] = "Please register first..." and return redirect_to({:action => :register, :person => pending_person.attributes}) unless Person.exists?(:nickname => pending_person.nickname)
+      authenticate(Person.find_by_nickname(pending_person.nickname))
       return redirect_to(remembered_params)
     elsif request.post? then
       begin
-        response = openid_consumer.begin(pending_person.normalize_identity_url)
+        raise "is unknown" unless Person.exists?(:nickname => pending_person.nickname)
+        response = openid_consumer.begin(Person.find_by_nickname(pending_person.nickname).normalize_identity_url)
+        remember_pending_person
         redirect_url = response.redirect_url(root_url, url_for(:login))
         return redirect_to redirect_url
       rescue => problem
         logger.debug(problem.backtrace.join("\n"))
-        pending_person.errors.add(:identity_url, problem)
+        pending_person.errors.add(:nickname, problem)
       end
     end
   end

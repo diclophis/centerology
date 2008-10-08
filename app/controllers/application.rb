@@ -35,7 +35,7 @@ class ApplicationController < ActionController::Base
     helper_method :current_person
     def current_person
       if session[:person_id] then
-        @current_person ||= Person.find(session[:person_id])
+        @current_person ||= Person.find(session[:person_id]) if Person.exists?(session[:person_id])
       else
         false
       end
