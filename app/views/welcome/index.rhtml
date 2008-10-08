@@ -1,3 +1,6 @@
+<% content_for :tagline do %>
+  <%=link_to(:Centerology, root_url)%>, image bookmarking with a <em><%=link_to(:philosophy, philosophy_url)%></em>
+<% end %>
 <ul>
   <% @recent_images.each { |image| %>
     <li class="image">

@@ -29,10 +29,8 @@
       .completions li { padding: 0.25em; } 
       .selected { background-color: #c3c3c3; }
       .tag { padding: 0.25em; }
-      .similar_images li { display: inline; }
-      .similar_images li img { vertical-align: middle; }
-      .recent_images li { display: inline; }
-      .recent_images li img { vertical-align: middle; }
+      .findings li { display: inline; }
+      .findings li img { margin: 1em; vertical-align: middle; }
       #header { margin: 0 0 0 0; }
       #header h1 { padding: 0px 0 70px 140px; background: url(/images/logo.png) no-repeat top left; } 
       #header ul { float: right; margin: 0 0 0 0; }
@@ -43,7 +41,6 @@
       #content { width: 81%; float: right; }
       #footer { padding: 1em 0 0.25em 0; clear: both; }
       #footer p { border-top: 1px solid #c3c3c3; text-align: right; padding: 0.25em; }
-      #feed li { display: inline; }
       #current_persons_tags li { display: inline; }
       .pagination { background: white; }
       .pagination a, .pagination span { padding: .2em .5em; display: block; float: left; margin-right: 1px; }
@@ -89,7 +86,8 @@
         </ul>
       <% end %>
       <h1>
-        <%=link_to(:Centerology, root_url)%>, image bookmarking with a <em><%=link_to(:philosophy, philosophy_url)%></em>
+        <%= yield :tagline %>
+
       </h1>
     </div>
     <div id="wrapper">

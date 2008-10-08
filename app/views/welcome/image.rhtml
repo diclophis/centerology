@@ -1,3 +1,6 @@
+<% content_for :tagline do %>
+  <%=link_to(:Centerology, root_url)%>
+<% end %>
 <ul>
   <li>
     <p>
@@ -26,7 +29,7 @@
     <% end %>
   </li>
   <li>
-    <ul class="similar_images">
+    <ul class="findings">
       <% @image.similar_images.each { |similar_image| %>
         <li>
           <%=link_to(image_tag(similar_image.icon_permalink), image_url(similar_image.permalink))%>
@@ -40,10 +43,10 @@
     </p>
   </li>
   <li>
-    <ul class="recent_images">
+    <ul class="findings">
       <% @image.findings.first.person.last_three_images.each { |latest_image_from_person| %>
         <li>
-          <%=image_tag(latest_image_from_person.icon_permalink) unless @image.id == latest_image_from_person.id%>
+          <%=link_to(image_tag(latest_image_from_person.icon_permalink), image_url(latest_image_from_person.permalink)) unless @image.id == latest_image_from_person.id%>
         </li>
       <% } %>
     </ul>

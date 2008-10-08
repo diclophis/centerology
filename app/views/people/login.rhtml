@@ -1,11 +1,10 @@
-<h1>
-  Login
-</h1>
+<% content_for :tagline do %>
+  <%=link_to(:Centerology, root_url)%>
+<% end %>
 <% form_tag do %>
   <p>
     Enter your OpenID credentials below.
   </p>
-  <%=render :partial => 'shared/flash' %>
   <%=error_messages_for(:person)%>
   <ul>
   <% fields_for(:person) { |person| %>
