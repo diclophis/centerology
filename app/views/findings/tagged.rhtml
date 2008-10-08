@@ -1,10 +1,10 @@
-<h1>
+<% content_for :tagline do %>
   <%=link_to("Findings tagged with #{@tag}", {:controller => :findings, :action => :tagged, :id => @tag})%>
-</h1>
-<ul>
+<% end %>
+<ul class="findings">
   <% @findings.each { |finding| %>
     <li>
-      <%=image_tag(finding.image.icon_permalink)%>
+      <%=link_to(image_tag(finding.image.icon_permalink), image_url(finding.image.permalink))%>
     </li>
   <% } %>
 </ul>

@@ -53,8 +53,16 @@ class Image < ActiveRecord::Base
     }
   end
   def similar_images(length = 10)
-    ImageSeek.find_images_similar_with_keywords_to(1, self.id, length, self.findings.first.tags.collect { |tag| tag.id }.join(",")).collect { |image_id, similarity|
+    similar_with_tags = ImageSeek.find_images_similar_with_keywords_to(1, self.id, length, self.findings.first.tags.collect { |tag| tag.id }.join(",")).collect { |image_id, similarity|
       Image.find(image_id) unless self.id == image_id
     }.compact
+    if similar_with_tags.length < length then
+      similar = ImageSeek.find_images_similar_to(1, self.id, length).collect { |image_id, similarity|
+        Image.find(image_id) unless self.id == image_id
+      }.compact
+    else
+      similar = []
+    end
+    (similar_with_tags + similar).uniq.slice(0, length)
   end
 end
