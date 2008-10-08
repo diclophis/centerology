@@ -1,45 +1,51 @@
 <ul>
-  <li class="image">
-    <div class="imagewrapper">
-      <div class="primary">
-        <ul>
-          <li>
-            <p>
-              <%=link_to(h(truncate(@image.title, 50)), @image.src)%>
-              <br/>
-              <%=truncate(@image.src, 42)%>
-              <br/>
-              found <%=time_ago_in_words(@image.latest_finding.created_at)%> ago
-            </p>
-          </li>
-          <li>
-            <%=link_to(image_tag(@image.thumb_permalink), @image.src)%>
-          </li>
-          <li>
-            <% unless @image.findings.first.tag_list.blank? then %>
-              <%=@image.findings.first.person.nickname%>
-              tagged this as
-              <% @image.findings.first.tags.each { |tag| %>
-                <%=link_to(tag.name, {:controller => :findings, :action => :tagged, :id => tag.name})%>
-              <% } %>
-            <% end %>
-          </li>
-          <li>
-            <% if @image.findings.count > 1 then %>
-              found by <%=@image.findings.count%> other people
-            <% end %>
-          </li>
-        </ul>
-      </div>
-      <div class="similar">
-        <ul>
-          <% @image.similar_images.each { |similar_image| %>
-            <li>
-              <%=link_to(image_tag(similar_image.icon_permalink), image_url(similar_image.permalink))%>
-            </li>
-          <% } %>
-        </ul>
-      </div>
-    </div>
+  <li>
+    <p>
+      <%=link_to(h(truncate(@image.title, 50)), @image.src)%>
+      <br/>
+      <%=truncate(@image.src, 42)%>
+      <br/>
+      found <%=time_ago_in_words(@image.latest_finding.created_at)%> ago
+    </p>
+  </li>
+  <li>
+    <%=link_to(image_tag(@image.thumb_permalink), @image.src)%>
+  </li>
+  <li>
+    <% unless @image.findings.first.tag_list.blank? then %>
+      <%=@image.findings.first.person.nickname%>
+      tagged this as
+      <% @image.findings.first.tags.each { |tag| %>
+        <%=link_to(tag.name, {:controller => :findings, :action => :tagged, :id => tag.name})%>
+      <% } %>
+    <% end %>
+  </li>
+  <li>
+    <% if @image.findings.count > 1 then %>
+      found by <%=@image.findings.count%> other people
+    <% end %>
+  </li>
+  <li>
+    <ul class="similar_images">
+      <% @image.similar_images.each { |similar_image| %>
+        <li>
+          <%=link_to(image_tag(similar_image.icon_permalink), image_url(similar_image.permalink))%>
+        </li>
+      <% } %>
+    </ul>
+  </li>
+  <li>
+    <p>
+      <%=@image.findings.first.person.nickname%> recently found...
+    </p>
+  </li>
+  <li>
+    <ul class="recent_images">
+      <% @image.findings.first.person.last_three_images.each { |latest_image_from_person| %>
+        <li>
+          <%=image_tag(latest_image_from_person.icon_permalink) unless @image.id == latest_image_from_person.id%>
+        </li>
+      <% } %>
+    </ul>
   </li>
 </ul>

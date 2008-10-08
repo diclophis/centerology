@@ -7,7 +7,6 @@ namespace 'imageseek' do
   task 'reset_db' => :environment do
     puts ImageSeek.reset_database(1)
   end
-
   desc 'Build database from images'
   task 'build_db' => :environment do
     Image.find(:all).each { |image|
@@ -20,5 +19,9 @@ namespace 'imageseek' do
       }
       puts ImageSeek.find_keywords_for(1, image.id).inspect
     }
+  end
+  desc 'Save ImageSeek database'
+  task 'save_db' => :environment do
+    puts ImageSeek.save_databases
   end
 end

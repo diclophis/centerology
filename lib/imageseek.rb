@@ -7,6 +7,9 @@ class ImageSeek
   def self.databases
     return @@client.call('getDbList')
   end
+  def self.save_databases
+    return @@client.call('saveAllDbs')
+  end
   def self.create_database(id)
     return @@client.call('createDb', id.to_i)
   end

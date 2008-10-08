@@ -14,7 +14,7 @@
               </p>
             </li>
             <li>
-              <%=link_to(image_tag(image.thumb_permalink), image.src)%>
+              <%=link_to(image_tag(image.thumb_permalink), image_url(image.permalink))%>
             </li>
             <li>
               <% unless image.findings.first.tag_list.blank? then %>
