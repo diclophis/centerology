@@ -139,3 +139,36 @@ mysql> SELECT DISTINCT people.id FROM `findings` JOIN people ON people.id = find
                 <% } %>
               </ul>
             </div>
+
+            <!--
+            <div class="similar">
+              <ul>
+                <li>
+                  <p>
+                    is similar to...
+                  </p>
+                </li>
+                <% ImageSeek.find_images_similar_to(1, image.id, 3).each { |image_id, similarity| %>
+                  <li>
+                    <%=image_tag(Image.find(image_id).icon_permalink) unless image.id == image_id%>
+                  </li>
+                <% } %>
+              </ul>
+            </div>
+            -->
+            <!--
+            <div class="similar">
+              <ul>
+                <li>
+                  <p>
+                    <%=image.findings.first.person.nickname%> recently found...
+                  </p>
+                </li>
+                <% image.findings.first.person.last_three_images.each { |latest_image_from_person| %>
+                  <li>
+                    <%=image_tag(latest_image_from_person.icon_permalink) unless image.id == latest_image_from_person.id%>
+                  </li>
+                <% } %>
+              </ul>
+            </div>
+            -->

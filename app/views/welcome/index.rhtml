@@ -97,14 +97,9 @@
             </div>
             <div class="similar">
               <ul>
-                <li>
-                  <p>
-                    <%=image.findings.first.person.nickname%> recently found...
-                  </p>
-                </li>
-                <% image.findings.first.person.last_three_images.each { |latest_image_from_person| %>
+                <% image.similar_images(3).each { |similar_image| %>
                   <li>
-                    <%=image_tag(latest_image_from_person.icon_permalink) unless image.id == latest_image_from_person.id%>
+                    <%=link_to(image_tag(similar_image.icon_permalink), image_url(similar_image.permalink))%>
                   </li>
                 <% } %>
               </ul>

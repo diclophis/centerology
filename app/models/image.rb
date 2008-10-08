@@ -52,4 +52,9 @@ class Image < ActiveRecord::Base
       }
     }
   end
+  def similar_images(length = 10)
+    ImageSeek.find_images_similar_with_keywords_to(1, self.id, length, self.findings.first.tags.collect { |tag| tag.id }.join(",")).collect { |image_id, similarity|
+      Image.find(image_id) unless self.id == image_id
+    }.compact
+  end
 end

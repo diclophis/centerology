@@ -48,4 +48,14 @@ class ApplicationController < ActionController::Base
     def current_per_page
       5
     end
+    helper_method :recent_people
+    def recent_people
+      Person.paginate(
+        :per_page => 10,
+        :page => 1,
+        :joins => "JOIN findings ON findings.person_id = people.id",
+        :group => "findings.person_id",
+        :order => "findings.created_at DESC"
+      )
+    end
 end

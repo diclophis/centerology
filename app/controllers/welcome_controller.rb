@@ -37,6 +37,10 @@ class WelcomeController < ApplicationController
   end
   def philosophy
   end
+  def image
+    redirect_to(root_url) unless Image.exists?(:permalink => params[:permalink])
+    @image = Image.find_by_permalink(params[:permalink])
+  end
   def bookmarklet
     new_findings_url = url_for({:controller => :findings, :action => :new})
     @js = render_to_string(:inline => "

@@ -41,6 +41,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.philosophy '/philosophy', :controller => "welcome", :action => "philosophy"
   map.findings '/findings', :controller => "welcome", :action => "findings"
+  map.image '/image/:permalink', :controller => "welcome", :action => "image"
   map.feed '/feeds/:nickname', :controller => "welcome", :action => "feed"
   map.rss_feed '/rss/:nickname', :controller => "welcome", :action => "feed", :format => "rss"
 
