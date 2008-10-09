@@ -42,18 +42,20 @@
       <% } %>
     </ul>
   </li>
-  <li>
-    <h3>
-      <%=@image.findings.first.person.nickname%> recently found...
-    </h3>
-  </li>
-  <li>
-    <ul class="findings">
-      <% @image.findings.first.person.last_three_images.each { |latest_image_from_person| %>
-        <li>
-          <%=link_to(image_tag(latest_image_from_person.icon_permalink), image_url(latest_image_from_person.permalink)) unless @image.id == latest_image_from_person.id%>
-        </li>
-      <% } %>
-    </ul>
-  </li>
+  <% @image.findings.each { |finding| %>
+    <li>
+      <h3>
+        <%=finding.person.nickname%> recently found...
+      </h3>
+    </li>
+    <li>
+      <ul class="findings">
+        <% finding.person.last_three_images.each { |latest_image_from_person| %>
+          <li>
+            <%=link_to(image_tag(latest_image_from_person.icon_permalink), image_url(latest_image_from_person.permalink)) unless @image.id == latest_image_from_person.id%>
+          </li>
+        <% } %>
+      </ul>
+    </li>
+  <% } %>
 </ul>

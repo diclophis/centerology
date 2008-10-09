@@ -1,6 +1,6 @@
-<h1>
+<% content_for :tagline do %>
   New Finding
-</h1>
+<% end %>
 <% form_tag() { %>
   <%=error_messages_for(:finding, :image)%>
   <ul>
