@@ -5,10 +5,12 @@ class WelcomeController < ApplicationController
     @recent_images = Image.paginate(
       :per_page => current_per_page,
       :page => current_page, 
-      :select => "images.*, count(*) as popularity",
-      :joins => "JOIN findings ON findings.image_id = images.id",
+      #:select => "images.*, count(*) as popularity, DATEDIFF(NOW(), findings.created_at) as newness",
+      :select => "images.*, count(*) as popularity, MAX(findings.created_at) as newness",
+      #:joins => "JOIN findings ON (findings.image_id = images.id AND DATEDIFF(NOW(), findings.created_at) < 1)",
+      :joins => "JOIN findings ON (findings.image_id = images.id)",
       :group => "findings.image_id",
-      :order => "popularity DESC, findings.created_at DESC"
+      :order => "newness DESC, popularity DESC, findings.created_at DESC"
     )
     @top_people = Person.paginate(
       :per_page => 10,
