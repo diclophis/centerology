@@ -1,6 +1,6 @@
 class CreateSimilarities < ActiveRecord::Migration
   def self.up
-    create_table :images do |t|
+    create_table :similarities do |t|
       t.integer :image_id
       t.integer :similar_image_id
       t.float :rating
@@ -9,5 +9,6 @@ class CreateSimilarities < ActiveRecord::Migration
   end
 
   def self.down
+    drop_table :similarities
   end
 end

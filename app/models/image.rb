@@ -3,10 +3,12 @@
 class Image < ActiveRecord::Base
   has_many :findings, :order => :created_at
   has_one :latest_finding, :class_name => 'Finding', :order => :created_at
+  has_many :similarities
+  has_many :similar_images, :through => :similarities, :limit => 10, :order => 'created_at DESC, rating DESC', :uniq => true
   validates_presence_of :title
   validates_presence_of :src
   validates_as_uri :src
-  attr_accessor :similarity
+  attr_accessor :rating
   def public_link(x_key = :main)
     Aws.get_key(x_key, self.permalink).public_link
   end
@@ -53,21 +55,19 @@ class Image < ActiveRecord::Base
       }
     }
   end
-  def similar_images(length = 10)
-    similar_with_tags = ImageSeek.find_images_similar_with_keywords_to(1, self.id, length, self.findings.first.tags.collect { |tag| tag.id }.join(",")).collect { |image_id, similarity|
-    logger.debug(similarity)
+  def find_similar_images(length = 20)
+    similar_with_tags = ImageSeek.find_images_similar_with_keywords_to(1, self.id, length, self.findings.first.tags.collect { |tag| tag.id }.join(",")).collect { |image_id, rating|
       unless self.id == image_id then
         image = Image.find(image_id) unless self.id == image_id
-        image.similarity = similarity
+        image.rating = rating
         image
       end
     }.compact
-    logger.debug(similar_with_tags.inspect)
     if similar_with_tags.length < length then
-      similar = ImageSeek.find_images_similar_to(1, self.id, length).collect { |image_id, similarity|
+      similar = ImageSeek.find_images_similar_to(1, self.id, length).collect { |image_id, rating|
         unless self.id == image_id then
           image = Image.find(image_id)
-          image.similarity = similarity
+          image.rating = rating
           image
         end
       }.compact

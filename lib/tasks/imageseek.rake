@@ -24,6 +24,18 @@ namespace 'imageseek' do
   task 'save_db' => :environment do
     puts ImageSeek.save_databases
   end
+  desc 'Create Similarities'
+  task 'create_similarities' => :environment do
+    Image.find(:all).each { |image|
+      image.find_similar_images.each { |similar_image|
+        similarity = Similarity.new
+        similarity.image_id = image.id
+        similarity.similar_image_id = similar_image.id
+        similarity.rating = similar_image.rating
+        similarity.save!
+      }
+    }
+  end
   desc 'ImageSeek clusters'
   task 'clusters' => :environment do
     puts ImageSeek.clusters(1, 10).inspect
