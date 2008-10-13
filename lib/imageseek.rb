@@ -16,6 +16,9 @@ class ImageSeek
   def self.reset_database(id)
     return @@client.call('resetDb', id.to_i)
   end
+  def self.clusters(id, count = 10)
+    return @@client.call('getClusterDb', id.to_i, count)
+  end
   def self.add_image(database_id, image_id, image_path, is_url = true)
     return @@client.call('addImg', database_id.to_i, image_id.to_i, image_path, is_url)
   end

@@ -6,6 +6,7 @@ class Image < ActiveRecord::Base
   validates_presence_of :title
   validates_presence_of :src
   validates_as_uri :src
+  attr_accessor :similarity
   def public_link(x_key = :main)
     Aws.get_key(x_key, self.permalink).public_link
   end
@@ -54,12 +55,23 @@ class Image < ActiveRecord::Base
   end
   def similar_images(length = 10)
     similar_with_tags = ImageSeek.find_images_similar_with_keywords_to(1, self.id, length, self.findings.first.tags.collect { |tag| tag.id }.join(",")).collect { |image_id, similarity|
-      Image.find(image_id) unless self.id == image_id
+    logger.debug(similarity)
+      unless self.id == image_id then
+        image = Image.find(image_id) unless self.id == image_id
+        image.similarity = similarity
+        image
+      end
     }.compact
+    logger.debug(similar_with_tags.inspect)
     if similar_with_tags.length < length then
       similar = ImageSeek.find_images_similar_to(1, self.id, length).collect { |image_id, similarity|
-        Image.find(image_id) unless self.id == image_id
+        unless self.id == image_id then
+          image = Image.find(image_id)
+          image.similarity = similarity
+          image
+        end
       }.compact
+      logger.debug(similar.inspect)
     else
       similar = []
     end

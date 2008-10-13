@@ -24,4 +24,8 @@ namespace 'imageseek' do
   task 'save_db' => :environment do
     puts ImageSeek.save_databases
   end
+  desc 'ImageSeek clusters'
+  task 'clusters' => :environment do
+    puts ImageSeek.clusters(1, 10).inspect
+  end
 end
