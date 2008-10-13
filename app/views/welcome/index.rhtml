@@ -37,7 +37,7 @@
         </div>
         <div class="similar">
           <ul>
-            <% image.similar_images(3).each { |similar_image| %>
+            <% image.top_similar_images.each { |similar_image| %>
               <li>
                 <%=link_to(image_tag(similar_image.icon_permalink), image_url(similar_image.permalink))%>
               </li>

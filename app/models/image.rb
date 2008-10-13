@@ -5,6 +5,7 @@ class Image < ActiveRecord::Base
   has_one :latest_finding, :class_name => 'Finding', :order => :created_at
   has_many :similarities
   has_many :similar_images, :through => :similarities, :limit => 10, :order => 'created_at DESC, rating DESC', :uniq => true
+  has_many :top_similar_images, :source => :similar_image, :through => :similarities, :limit => 3, :order => 'created_at DESC, rating DESC', :uniq => true
   validates_presence_of :title
   validates_presence_of :src
   validates_as_uri :src
@@ -56,25 +57,5 @@ class Image < ActiveRecord::Base
     }
   end
   def find_similar_images(length = 20)
-    similar_with_tags = ImageSeek.find_images_similar_with_keywords_to(1, self.id, length, self.findings.first.tags.collect { |tag| tag.id }.join(",")).collect { |image_id, rating|
-      unless self.id == image_id then
-        image = Image.find(image_id) unless self.id == image_id
-        image.rating = rating
-        image
-      end
-    }.compact
-    if similar_with_tags.length < length then
-      similar = ImageSeek.find_images_similar_to(1, self.id, length).collect { |image_id, rating|
-        unless self.id == image_id then
-          image = Image.find(image_id)
-          image.rating = rating
-          image
-        end
-      }.compact
-      logger.debug(similar.inspect)
-    else
-      similar = []
-    end
-    (similar_with_tags + similar).uniq.slice(0, length)
   end
 end

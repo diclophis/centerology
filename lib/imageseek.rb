@@ -4,13 +4,29 @@ class ImageSeek
   HOST = "localhost"
   PORT = 31128
   @@client = XMLRPC::Client.new(HOST, "/RPC", PORT)
+  def self.daemon
+    IO.popen("python /root/isk-daemon-0.6.2/isk-daemon.py 2>&1") { |io|
+      Thread.new {
+        while IO.select([io], nil, nil) do
+          puts io.gets
+        end
+      }
+      sleep 5
+      yield
+      self.save_databases
+      self.shutdown
+    }
+  end
+  def self.shutdown
+    return @@client.call('shutdownServer')
+  end
   def self.databases
     return @@client.call('getDbList')
   end
   def self.save_databases
     return @@client.call('saveAllDbs')
   end
-  def self.create_database(id)
+  def self.create(id)
     return @@client.call('createDb', id.to_i)
   end
   def self.reset_database(id)
