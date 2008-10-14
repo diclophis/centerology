@@ -22,6 +22,7 @@ class FindingsController < ApplicationController
     end
   end
   def new
+    @disable_urchin = true
     session[:bookmarklet] ||= params[:bookmarklet]
     @image = Image.find_by_src(params[:image][:src])
     @image ||= Image.new

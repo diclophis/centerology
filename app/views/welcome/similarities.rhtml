@@ -1,0 +1,24 @@
+<% content_for :tagline do %>
+  wang
+<% end %>
+<ul>
+  <li>
+    <%=debug(@image.findings.tag_counts)%>
+  </li>
+  <li>
+    <hr/>
+  </li>
+  <li>
+    <%=debug(@image)%>
+    <%=image_tag(@image.icon_permalink)%>
+  </li>
+  <li>
+    <hr/>
+  </li>
+  <% @image.similarities.each { |similarity| %>
+    <li>
+      <%=debug(similarity)%>
+      <%=image_tag(similarity.similar_image.icon_permalink)%>
+    </li>
+  <% } %>
+</ul>

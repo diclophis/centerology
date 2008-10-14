@@ -1,6 +1,6 @@
-<h1>
-  Your findings
-</h1>
+<% content_for :tagline do %>
+  <%=link_to(:Centerology, root_url)%>
+<% end %>
 <p>
   These are your findings, you can update the tags...
 </p>
@@ -11,10 +11,12 @@
         <li>
           <%=image_tag(finding.image.icon_permalink)%>
         </li>
+        <!--
         <li>
           <%=ff.label(:tag_list)%>
           <%=ff.text_field(:tag_list)%>
         </li>
+        -->
       <% } %>
       <li>
         <%=submit_tag(:update)%>
