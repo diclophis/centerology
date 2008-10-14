@@ -3,9 +3,10 @@
 class Image < ActiveRecord::Base
   has_many :findings, :order => :created_at
   has_one :latest_finding, :class_name => 'Finding', :order => :created_at
-  has_many :similarities
-  has_many :similar_images, :through => :similarities, :limit => 10, :order => 'created_at DESC, rating DESC', :uniq => true
-  has_many :top_similar_images, :source => :similar_image, :through => :similarities, :limit => 3, :order => 'created_at DESC, rating DESC', :uniq => true
+  has_many :similarities, :order => 'rating ASC', :uniq => true
+  #has_many :similar_images, :through => :similarities, :limit => 10, :order => 'created_at DESC, rating ASC', :uniq => true
+  has_many :similar_images, :through => :similarities, :limit => 10, :order => 'rating ASC', :uniq => true
+  has_many :top_similar_images, :source => :similar_image, :through => :similarities, :limit => 3, :order => 'rating ASC', :uniq => true
   validates_presence_of :title
   validates_presence_of :src
   validates_as_uri :src
