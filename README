@@ -186,3 +186,53 @@ mysql> SELECT DISTINCT people.id FROM `findings` JOIN people ON people.id = find
                 <% } %>
               <% end %>
             </li>
+
+This is Google's cache of http://artcode.sajonara.de/index.php?tag=most-tagged. It is a snapshot of the page as it appeared on Jun 24, 2008 07:59:09 GMT. The current page could have changed in the meantime. Learn more
+
+Text-only version
+These search terms are highlighted: acts_as_taggable_on_steroids tag_counts font size log  
+Art at Code
+
+No frolf, no city planning, no marine biology
+acts_as_taggable_on_steroids (and zinc) - font size calculation
+
+Jul 14, 2007 in Plugins, Rails | wong it!
+
+Most of you know acts_as_taggable and acts_as_taggable_on_steroids. The last one provides support for tag clouds. But there ist no support for font size calculation.
+
+I don’t want to fork the project so if you need font size calculation just copy & paste the following code somewhere inside the “module SingletonMethods” of your acts_as_taggable_on_steroids plugin (vendor/acts_as_taggable_on_steroids/lib/acts_as_taggable.rb).
+def tag_cloud_with_font_size(min_font_size, options={})
+  tags = tag_counts(options)
+         
+  number_of_tags = tags.length
+  number_of_tag_instances = 0
+  tags.each do |tag|
+    number_of_tag_instances += tag.count
+  end
+  avarage_tag_instances = (number_of_tag_instances / number_of_tags).to_f
+         
+  tags_with_font_size = tags.map do |tag|
+    instances_of_this_tag = tag.count
+    font_size = min_font_size
+    instance_deviation = (instances_of_this_tag - avarage_tag_instances).to_f
+    font_size_deviation = (2.5 * Math.log( 1 + instance_deviation.abs ) ).round.to_i
+    if instance_deviation > 0
+      font_size += font_size_deviation
+    elsif
+      font_size -= font_size_deviation
+    end
+    {:tag => tag, :font_size => font_size}
+  end         
+end
+
+Usage:
+tag_cloud = Article.tag_cloud_with_font_size(11, :limit => 100)
+
+tag_cloud.each do |t|
+  link_to_tag(t[:tag], :style => 'font-size: #{t[:font_size]}px;')
+end
+
+This works like the method “tag_counts” except for the first parameter, which is the minimum font size.
+
+Credit for the calculation belongs to akxl
+

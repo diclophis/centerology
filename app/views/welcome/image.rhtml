@@ -15,6 +15,11 @@
     <%=link_to(image_tag(@image.thumb_permalink), @image.src)%>
   </li>
   <li>
+    <% tag_cloud(@image.findings.tag_counts, cloud_classes) do |tag, css_class| %>
+      <%= link_to(tag.name, {:controller => :findings, :action => :tagged, :id => tag.name}, {:class => css_class}) %>
+    <% end %>
+  </li>
+  <li>
     <% unless @image.findings.first.tag_list.blank? then %>
       <%=@image.findings.first.person.nickname%>
       tagged this as

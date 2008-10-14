@@ -44,6 +44,7 @@ class WelcomeController < ApplicationController
     @image = Image.find_by_permalink(params[:permalink])
   end
   def similarities
+    redirect_to(root_url) unless current_person
     redirect_to(root_url) unless Image.exists?(:permalink => params[:permalink])
     @image = Image.find_by_permalink(params[:permalink])
   end

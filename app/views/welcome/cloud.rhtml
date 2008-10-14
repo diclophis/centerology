@@ -1,3 +1,3 @@
-<% tag_cloud(Finding.tag_counts, %w(css1 css2 css3 css4)) do |tag, css_class| %>
+<% tag_cloud(Finding.tag_counts, cloud_classes) do |tag, css_class| %>
   <%= link_to(tag.name, {:controller => :findings, :action => :tagged, :id => tag.name}, {:class => css_class}) %>
 <% end %>
