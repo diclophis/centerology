@@ -236,3 +236,15 @@ This works like the method “tag_counts” except for the first parameter, whic
 
 Credit for the calculation belongs to akxl
 
+      /*
+        .<%=cloud_class%> { font-size: <%=(((i.to_f+1.0)/(cloud_classes.length-1)) * 100.0)%>%; }
+      */
+  <li>
+    <% unless @image.findings.first.tag_list.blank? then %>
+      <%=@image.findings.first.person.nickname%>
+      tagged this as
+      <% @image.findings.first.tags.each { |tag| %>
+        <%=link_to(tag.name, {:controller => :findings, :action => :tagged, :id => tag.name})%>
+      <% } %>
+    <% end %>
+  </li>

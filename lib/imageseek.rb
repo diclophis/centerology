@@ -10,13 +10,19 @@ class ImageSeek
       thread = Thread.new {
         while IO.select([io], nil, nil) do
           i = io.gets
+          puts i
           break if i.nil?
         end
       }
       sleep 0.1 until i.include?("init finished")
-      yield
-      self.shutdown
-      thread.join
+      begin
+        yield
+      rescue => problem
+        raise problem
+      ensure
+        self.shutdown
+        thread.join
+      end
     }
   end
   def self.shutdown
@@ -54,8 +60,8 @@ class ImageSeek
   rescue
     []
   end
-  def self.find_images_similar_with_keywords_to(database_id, image_id, count = 10, keywords = "")
-    return @@client.call('queryImgIDKeywords', database_id.to_i, image_id.to_i, count, 0, keywords)
+  def self.find_images_similar_with_keywords_to(database_id, image_id, count = 10, keywords = "", join = 0)
+    return @@client.call('queryImgIDKeywords', database_id.to_i, image_id.to_i, count, join, keywords)
   rescue
     []
   end

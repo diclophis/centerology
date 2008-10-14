@@ -22,7 +22,7 @@
       .similar { border-left: 1px solid #c3c3c3; margin: 0 0 2em 2em; padding: 0 1em 0 3em; float: left; }
       .pagination { clear: both; }
       <% cloud_classes.each_with_index { |cloud_class, i| %>
-        .<%=cloud_class%> { font-size: <%=(((i.to_f+1.0)/cloud_classes.length) * 100.0)%>%; }
+        .<%=cloud_class%> { font-size: <%=(Math.log((i+1)*5) * 25)%>%; }
       <% } %>
       .completions { border: 2px solid #c3c3c3; background: white; }
       .completions li { padding: 0.25em; } 

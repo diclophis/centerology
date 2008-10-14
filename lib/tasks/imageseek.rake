@@ -17,30 +17,34 @@ namespace 'imageseek' do
         }
         Similarity.transaction do
           images.each { |image|
-            tags = image.findings.first.tags.collect { |tag| tag.id }.join(",")
-            similar_with_tags = ImageSeek.find_images_similar_with_keywords_to(database, image.id, length, tags).reverse.collect { |image_id, rating|
+            tags = image.findings.tag_counts.collect { |tag| tag.id }.join(",")
+            similar_with_tags_and = ImageSeek.find_images_similar_with_keywords_to(database, image.id, 4, tags, 1).collect { |image_id, rating|
               unless image.id == image_id then
                 similar_image = Image.find(image_id)
-                similar_image.rating = rating
-                similar_image
+                #similar_image.rating = rating
+                [similar_image, rating, "and"]
               end
             }
-            if similar_with_tags.length < length then
-              similar = ImageSeek.find_images_similar_to(database, image.id, length).reverse.collect { |image_id, rating|
-                unless image.id == image_id then
-                  similar_image = Image.find(image_id)
-                  similar_image.rating = rating
-                  similar_image
-                end
-              }
-            else
-              similar = []
-            end
-            (similar_with_tags + similar).compact.uniq.slice(0, length).each { |similar_image|
+            similar_with_tags_or = ImageSeek.find_images_similar_with_keywords_to(database, image.id, 4, tags, 0).collect { |image_id, rating|
+              unless image.id == image_id then
+                similar_image = Image.find(image_id)
+                #similar_image.rating = rating
+                [similar_image, rating, "or"]
+              end
+            }
+            similar_without_tags = ImageSeek.find_images_similar_to(database, image.id, 4).collect { |image_id, rating|
+              unless image.id == image_id then
+                similar_image = Image.find(image_id)
+                #similar_image.rating = rating
+                [similar_image, rating, "without"]
+              end
+            }
+            (similar_with_tags_and + similar_with_tags_or + similar_without_tags).compact.each { |similar_image, rating, join_type|
               similarity = Similarity.new
               similarity.image_id = image.id
               similarity.similar_image_id = similar_image.id
-              similarity.rating = similar_image.rating
+              similarity.rating = rating
+              similarity.join_type = join_type
               similarity.save!
             }
           }
