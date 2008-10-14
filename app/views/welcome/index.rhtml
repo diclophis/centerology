@@ -14,25 +14,19 @@
                 <%=truncate(image.src, 42)%>
                 <br/>
                 found <%=time_ago_in_words(image.latest_finding.created_at)%> ago
+                <% if image.findings.count > 1 then %>
+                  by <%=image.findings.count%> other people
+                <% end %>
               </p>
             </li>
             <li>
               <%=link_to(image_tag(image.thumb_permalink), image_url(image.permalink))%>
             </li>
-            <li>
-              <% unless image.findings.first.tag_list.blank? then %>
-                <%=image.findings.first.person.nickname%>
-                tagged this as
-                <% image.findings.first.tags.each { |tag| %>
-                  <%=link_to(tag.name, {:controller => :findings, :action => :tagged, :id => tag.name})%>
-                <% } %>
-              <% end %>
-            </li>
-            <li>
-              <% if image.findings.count > 1 then %>
-                found by <%=image.findings.count%> other people
-              <% end %>
-            </li>
+            <% if current_person then %>
+              <li>
+                <%=link_to(:ditto, {:controller => :findings, :action => :new, "image[src]" => image.src})%>
+              </li>
+            <% end %>
           </ul>
         </div>
         <div class="similar">

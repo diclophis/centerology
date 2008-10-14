@@ -25,8 +25,8 @@ class FindingsController < ApplicationController
     session[:bookmarklet] ||= params[:bookmarklet]
     @image = Image.find_by_src(params[:image][:src])
     @image ||= Image.new
-    @image.src = params[:image][:src]
-    @image.title = params[:image][:title]
+    @image.src = params[:image][:src] if @image.src.blank?
+    @image.title = params[:image][:title] if @image.title.blank?
     @finding = Finding.find_by_person_id_and_image_id(current_person, @image)
     @finding ||= Finding.new
     #maybe? @image.title = title if image.new_record?

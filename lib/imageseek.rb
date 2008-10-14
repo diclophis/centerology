@@ -6,15 +6,17 @@ class ImageSeek
   @@client = XMLRPC::Client.new(HOST, "/RPC", PORT)
   def self.daemon
     IO.popen("python /root/isk-daemon-0.6.2/isk-daemon.py 2>&1") { |io|
-      Thread.new {
+      i = ""
+      thread = Thread.new {
         while IO.select([io], nil, nil) do
-          puts io.gets
+          i = io.gets
+          break if i.nil?
         end
       }
-      sleep 5
+      sleep 0.1 until i.include?("init finished")
       yield
-      self.save_databases
       self.shutdown
+      thread.join
     }
   end
   def self.shutdown

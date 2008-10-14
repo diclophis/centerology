@@ -172,3 +172,17 @@ mysql> SELECT DISTINCT people.id FROM `findings` JOIN people ON people.id = find
               </ul>
             </div>
             -->
+            <li>
+              <% if image.findings.count > 1 then %>
+                found by <%=image.findings.count%> other people
+              <% end %>
+            </li>
+            <li>
+              <% unless image.findings.first.tag_list.blank? then %>
+                <%=image.findings.first.person.nickname%>
+                tagged this as
+                <% image.findings.first.tags.each { |tag| %>
+                  <%=link_to(tag.name, {:controller => :findings, :action => :tagged, :id => tag.name})%>
+                <% } %>
+              <% end %>
+            </li>

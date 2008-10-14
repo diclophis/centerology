@@ -2,6 +2,9 @@
 // This file is automatically included by javascript_include_tag :defaults
 
 Event.observe(window, 'load', function () {
+  $$("#person_nickname").each(function(element) {
+    element.focus();
+  });
   $$("#finding_tag_list").each(function(element) {
     var fieldId = element.id;
     var completions = document.createElement('div');
