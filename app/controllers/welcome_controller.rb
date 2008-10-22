@@ -30,6 +30,11 @@ class WelcomeController < ApplicationController
   end
   def feed
     @feeder = Person.find_by_nickname(params[:nickname])
+    if params[:screensaver] then
+      @images = @feeder.images
+    else
+      @images = @feeder.last_three_images
+    end
     respond_to { |format|
       format.html
       format.rss
