@@ -62,4 +62,13 @@ class WelcomeController < ApplicationController
   end
   def cloud
   end
+  def random
+    #sleep 5
+    redirect_to(Image.find(:first, :offset => (Image.count * rand).to_i).thumb_permalink)
+  end
+  def plist_of_images_to_rate
+    #plist = {'a'  => 'b', 'c' => 'd', 'e' => {'f' => 'g', 'h' => {'i' => 'j'}}}.to_plist
+    #images = Images.
+    render(:text => plist)
+  end
 end

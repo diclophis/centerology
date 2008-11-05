@@ -248,3 +248,12 @@ Credit for the calculation belongs to akxl
       <% } %>
     <% end %>
   </li>
+  select join_type, images.permalink, rimages.permalink, image_id, similar_image_id, rating from similarities join images on image_id=images.id join images as rimages on similar_image_id=rimages.id where join_type="and" group by image_id, similar_image_id order by rating desc limit 20;
+  +-----------+--------------------------------------+--------------------------------------+-
+
+
+person_id,image_id,finding_id,tag,rating
+
+totally :highest_something_positive ? rank of positive higher than negative
+definatly not :highest_something_not_negative
+never :anything_else

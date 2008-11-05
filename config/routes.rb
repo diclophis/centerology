@@ -38,6 +38,8 @@ ActionController::Routing::Routes.draw do |map|
   map.register '/register', :controller => "people", :action => "register"
   map.bookmarklet '/bookmarklet', :controller => "welcome", :action => "bookmarklet"
   map.cloud '/cloud', :controller => "welcome", :action => "cloud"
+  map.random '/random', :controller => "welcome", :action => "random"
+  map.random '/plist_of_images_to_rate', :controller => "welcome", :action => "plist_of_images_to_rate"
 
   map.philosophy '/philosophy', :controller => "welcome", :action => "philosophy"
   map.findings '/findings', :controller => "welcome", :action => "findings"

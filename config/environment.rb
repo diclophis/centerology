@@ -85,6 +85,8 @@ require 'imageseek'
 require 'aws'
 require 'smtp_tls'
 require 'gmail'
+require 'plist'
+require 'has_ratings'
 
 Fast::Cache.enable!
 TagList.delimiter = " "
