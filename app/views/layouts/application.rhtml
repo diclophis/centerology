@@ -9,7 +9,7 @@
       ul { list-style: none; margin: 0 0 0 0; padding: 0; }
       img { border: 0; }
       label { clear: right; display: block; }
-      body { font-size: 62.5% }
+      body { background-color: #E8E4B4; font-size: 62.5% }
       li, p { margin: 0 0 0.5em 0; }
       p { font-size: 1.25em; }
       .errorExplanation { margin: 0 0 1em 0; background-color:#ffcccc; border: 0.25em solid red; vertical-align:top; padding: 1em; }
@@ -20,9 +20,9 @@
       .notice { border: 0.25em solid gold; background-color: yellow; padding: 0.5em; margin: 0.5em 0 0.5em 0; }
       .image { float: left; margin: 0 0 2em 0; }
       .imagewrapper { clear: both; }
-      .primary { width: 37em; float: left; }
+      .primary { width: 37.5em; float: left; }
       .primary img { width: 36.5em; }
-      .similar { width: 24em; float: left; text-align: center; }
+      .similar { width: 19.5em; float: left; text-align: center; }
       .pagination { clear: both; }
       <% cloud_classes.each_with_index { |cloud_class, i| %>
         .<%=cloud_class%> { font-size: <%=(Math.log((i+1)*5) * 42)%>%; }
@@ -33,24 +33,21 @@
       .tag { padding: 0.25em; }
       .findings li { display: inline; }
       .findings li img { margin: 1em; vertical-align: middle; }
-      #header { background-color: #E8E4B4; padding: 0.5em 0.5em 2em 0.5em; width: 100em; }
-      /*
-      #header h1 { padding: 0px 0 70px 140px; background: url(/images/logo.png) no-repeat top left; } 
-      */
+      #header { background-color: #BEB677; padding: 0.5em 0.5em 1em 0.5em; width: 100em; }
       #header ul { float: right; margin: 0 0 0 0; }
       #header li { display: inline; }
-      #sidebar { padding: 0.5em; width: 38em; float: left; background: url(/images/logo.png) no-repeat 0.5em 0.5em; background-color: #BEB677;}
+      #sidebar { padding: 0.5em; width: 38em; float: left; background: #F9F4E3 url(/images/logo.png) no-repeat 0.5em 0.5em; }
       #sidebar ul { margin: 0 0 0em 14em; }
-      #content { padding: 0.5em; width: 61em; float: left; background-color: #B18C58; }
-      #footer { padding: 0.5em; clear: both; background-color: #594C46; color: white; width: 100em; }
+      #content { background-color: white; padding: 2em 0em 1em 4em; width: 58em; float: left; }
+      #footer { padding: 0.5em; clear: both; width: 100em; }
       #footer p { text-align: right; padding: 0.25em; }
       #current_persons_tags li { display: inline; }
-      .pagination { background: white; }
-      .pagination a, .pagination span { padding: .2em .5em; display: block; float: left; margin-right: 1px; }
-      .pagination span.disabled { border: 1px solid black; }
-      .pagination span.current { font-weight: bold; background: #c3c3c3; color: white; border: 1px solid black; }
-      .pagination a { text-decoration: none; color: black; border: 1px solid #c3c3c3; }
-      .pagination a:hover, .pagination a:focus { color: black; border-color: black; }
+      .pagination { }
+      .pagination a, .pagination span { font-size: 1.5em; display: block; float: left; padding: 0.25em; }
+      .pagination span.disabled { }
+      .pagination span.current { font-weight: bold; color: red; }
+      .pagination a { text-decoration: none; }
+      .pagination a:hover, .pagination a:focus { }
       .pagination:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
       * html .pagination { height: 1%; }
       *:first-child+html .pagination { overflow: hidden; }
