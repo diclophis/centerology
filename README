@@ -257,3 +257,5 @@ person_id,image_id,finding_id,tag,rating
 totally :highest_something_positive ? rank of positive higher than negative
 definatly not :highest_something_not_negative
 never :anything_else
+
+18.68

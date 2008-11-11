@@ -5,41 +5,45 @@
     <style type="text/css">
       a { text-decoration: none; outline: none; }
       a:active { outline: none; }
-      div,li,h1,h2,p,a { font-family: serif; margin: 0; padding: 0; }
+      div,li,h1,h2,h3,h4,h5,h6,p,a { font-family: sans-serif; margin: 0; padding: 0; }
       ul { list-style: none; margin: 0 0 0 0; padding: 0; }
       img { border: 0; }
       label { clear: right; display: block; }
-      form li, p { margin: 0 0 0.5em 0; }
-      .errorExplanation { margin: 0 0 1em 0; background-color:#ffcccc; border: 2px solid red; vertical-align:top; padding: 10px; }
+      body { font-size: 62.5% }
+      li, p { margin: 0 0 0.5em 0; }
+      p { font-size: 1.25em; }
+      .errorExplanation { margin: 0 0 1em 0; background-color:#ffcccc; border: 0.25em solid red; vertical-align:top; padding: 1em; }
       .errorExplanation h2 { color: maroon; margin: 0; }
       .errorExplanation ul li { list-style: square; margin: 0 0 0 1em; }
       .fieldWithErrors input[type="text"], .fieldWithErrors input[type="password"] { background-color: yellow; }
-      .success { border: 2px solid green; background-color: #ccffcc; padding: 0.5em; margin: 0.5em 0 0.5em 0; }
-      .notice { border: 2px solid gold; background-color: yellow; padding: 0.5em; margin: 0.5em 0 0.5em 0; }
-      .image { float: left; margin: 0 0 1em 0; }
-      .imagewrapper { clear: both; margin: 0 0 3em 0; }
-      .primary { width: 400px; margin: 0 1em 0 0; float: left; }
-      .similar { border-left: 1px solid #c3c3c3; margin: 0 0 2em 2em; padding: 0 1em 0 3em; float: left; }
+      .success { border: 0.25em solid green; background-color: #ccffcc; padding: 0.5em; margin: 0.5em 0 0.5em 0; }
+      .notice { border: 0.25em solid gold; background-color: yellow; padding: 0.5em; margin: 0.5em 0 0.5em 0; }
+      .image { float: left; margin: 0 0 2em 0; }
+      .imagewrapper { clear: both; }
+      .primary { width: 37em; float: left; }
+      .primary img { width: 36.5em; }
+      .similar { width: 24em; float: left; text-align: center; }
       .pagination { clear: both; }
       <% cloud_classes.each_with_index { |cloud_class, i| %>
-        .<%=cloud_class%> { font-size: <%=(Math.log((i+1)*5) * 25)%>%; }
+        .<%=cloud_class%> { font-size: <%=(Math.log((i+1)*5) * 42)%>%; }
       <% } %>
-      .completions { border: 2px solid #c3c3c3; background: white; }
+      .completions { border: 0.25em solid #c3c3c3; background: white; }
       .completions li { padding: 0.25em; } 
       .selected { background-color: #c3c3c3; }
       .tag { padding: 0.25em; }
       .findings li { display: inline; }
       .findings li img { margin: 1em; vertical-align: middle; }
-      #header { margin: 0 0 0 0; }
+      #header { background-color: #E8E4B4; padding: 0.5em 0.5em 2em 0.5em; width: 100em; }
+      /*
       #header h1 { padding: 0px 0 70px 140px; background: url(/images/logo.png) no-repeat top left; } 
+      */
       #header ul { float: right; margin: 0 0 0 0; }
       #header li { display: inline; }
-      #sidebar { width: 18%; float: left; }
-      #sidebar ul { margin: 0 0 1em 0; }
-      #ads { margin: 0 0 0 0; }
-      #content { width: 81%; float: right; }
-      #footer { padding: 1em 0 0.25em 0; clear: both; }
-      #footer p { border-top: 1px solid #c3c3c3; text-align: right; padding: 0.25em; }
+      #sidebar { padding: 0.5em; width: 38em; float: left; background: url(/images/logo.png) no-repeat 0.5em 0.5em; background-color: #BEB677;}
+      #sidebar ul { margin: 0 0 0em 14em; }
+      #content { padding: 0.5em; width: 61em; float: left; background-color: #B18C58; }
+      #footer { padding: 0.5em; clear: both; background-color: #594C46; color: white; width: 100em; }
+      #footer p { text-align: right; padding: 0.25em; }
       #current_persons_tags li { display: inline; }
       .pagination { background: white; }
       .pagination a, .pagination span { padding: .2em .5em; display: block; float: left; margin-right: 1px; }
@@ -99,21 +103,23 @@
           </li>
           <% recent_people.each { |person| %>
             <li>
-              <%=link_to(person, feed_url(:nickname => person))%>
-              <%=person.images.count%>
+              <p>
+                <%=link_to(person, feed_url(:nickname => person))%>
+                <%=person.images.count%>
+              </p>
             </li>
           <% } %>
         </ul>
         <ul>
-          <li>
-            <h2>
-              Sponsored By
-            </h2>
-          </li>
           <li id="ads">
             <%=render :partial => "shared/adsense"%>
           </li>
         </ul>
+        <div>
+          <% tag_cloud(Finding.tag_counts, cloud_classes) do |tag, css_class| %>
+            <%= link_to(tag.name, {:controller => :findings, :action => :tagged, :id => tag.name}, {:class => css_class}) %>
+          <% end %>
+        </div>
       </div>
       <div id="content">
         <%=render :partial => 'shared/flash' %>
