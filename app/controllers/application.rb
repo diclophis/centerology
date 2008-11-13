@@ -12,7 +12,13 @@ class ApplicationController < ActionController::Base
   # Uncomment this to filter the contents of submitted sensitive data parameters
   # from your application log (in this case, all fields with names like "password"). 
   # filter_parameter_logging :password
-  
+
+  MOBILE_USER_AGENTS = 'palm|palmos|palmsource|iphone|blackberry|nokia|phone|midp|mobi|pda|' +
+                       'wap|java|nokia|hand|symbian|chtml|wml|ericsson|lg|audiovox|motorola|' +
+                       'samsung|sanyo|sharp|telit|tsm|mobile|mini|windows ce|smartphone|' +
+                       '240x320|320x320|mobileexplorer|j2me|sgh|portable|sprint|vodafone|' +
+                       'docomo|kddi|softbank|pdxgw|j-phone|astel|minimo|plucker|netfront|' +
+                       'xiino|mot-v|mot-e|portalmmm|sagem|sie-s|sie-m|android|ipod'
 
   protected
     def remember_params
@@ -57,5 +63,9 @@ class ApplicationController < ActionController::Base
         :group => "findings.person_id",
         :order => "findings.created_at DESC"
       )
+    end
+    helper_method :is_mobile?
+    def is_mobile?
+      request.user_agent.to_s.downcase =~ Regexp.new(MOBILE_USER_AGENTS)
     end
 end

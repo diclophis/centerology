@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
   <head>
+    <meta name="viewport" content="width=1010" />
     <title>Centerology</title>
     <style type="text/css">
       a { text-decoration: none; outline: none; }
@@ -9,21 +10,20 @@
       ul { list-style: none; margin: 0 0 0 0; padding: 0; }
       img { border: 0; }
       label { clear: right; display: block; }
-      body { background-color: #E8E4B4; font-size: 62.5% }
+      body { background-color: #E8E4B4; font-size: 62.5%; width: 101em; margin: 0; padding: 0.5em; -webkit-text-size-adjust: none; }
       li, p { margin: 0 0 0.5em 0; }
       p { font-size: 1.25em; }
-      .errorExplanation { margin: 0 0 1em 0; background-color:#ffcccc; border: 0.25em solid red; vertical-align:top; padding: 1em; }
+      .errorExplanation { margin: 0 4em 1em 0; background-color:#ffcccc; border: 0.25em solid red; vertical-align:top; padding: 1em; }
       .errorExplanation h2 { color: maroon; margin: 0; }
       .errorExplanation ul li { list-style: square; margin: 0 0 0 1em; }
       .fieldWithErrors input[type="text"], .fieldWithErrors input[type="password"] { background-color: yellow; }
-      .success { border: 0.25em solid green; background-color: #ccffcc; padding: 0.5em; margin: 0.5em 0 0.5em 0; }
-      .notice { border: 0.25em solid gold; background-color: yellow; padding: 0.5em; margin: 0.5em 0 0.5em 0; }
+      .success { border: 0.25em solid green; background-color: #ccffcc; padding: 0.5em; margin: 0.5em 4em 0.5em 0; }
+      .notice { border: 0.25em solid gold; background-color: yellow; padding: 0.5em; margin: 0.5em 4em 0.5em 0; }
       .image { float: left; margin: 0 0 2em 0; }
       .imagewrapper { clear: both; }
       .primary { width: 37.5em; float: left; }
       .primary img { width: 36.5em; }
       .similar { width: 19.5em; float: left; text-align: center; }
-      .pagination { clear: both; }
       <% cloud_classes.each_with_index { |cloud_class, i| %>
         .<%=cloud_class%> { font-size: <%=(Math.log((i+1)*5) * 42)%>%; }
       <% } %>
@@ -32,12 +32,13 @@
       .selected { background-color: #c3c3c3; }
       .tag { padding: 0.25em; }
       .findings li { display: inline; }
-      .findings li img { margin: 1em; vertical-align: middle; }
-      #header { background-color: #BEB677; padding: 0.5em 0.5em 1em 0.5em; width: 100em; }
+      .findings li img { margin: 2em; vertical-align: middle; }
+      #header { background-color: #BEB677; padding: 0.5em 0.5em 0.5em 0.5em; width: 100em; }
       #header ul { float: right; margin: 0 0 0 0; }
       #header li { display: inline; }
-      #sidebar { padding: 0.5em; width: 38em; float: left; background: #F9F4E3 url(/images/logo.png) no-repeat 0.5em 0.5em; }
+      #sidebar { padding: 1em; width: 37em; float: left; background: #F9F4E3 url(/images/logo.png) no-repeat 1em 1em; }
       #sidebar ul { margin: 0 0 0em 14em; }
+      #ads { margin: 1em 0 0 0; }
       #content { background-color: white; padding: 2em 0em 1em 4em; width: 58em; float: left; }
       #footer { padding: 0.5em; clear: both; width: 100em; }
       #footer p { text-align: right; padding: 0.25em; }
@@ -87,48 +88,41 @@
       <% end %>
       <h1>
         <%= yield :tagline %>
-
       </h1>
     </div>
-    <div id="wrapper">
-      <div id="sidebar">
-        <ul>
+    <div id="sidebar">
+      <ul>
+        <li>
+          <h2>
+            Active People
+          </h2>
+        </li>
+        <% recent_people.each { |person| %>
           <li>
-            <h2>
-              Active People
-            </h2>
+            <p>
+              <%=link_to(person, feed_url(:nickname => person))%>
+              <%=person.images.count%>
+            </p>
           </li>
-          <% recent_people.each { |person| %>
-            <li>
-              <p>
-                <%=link_to(person, feed_url(:nickname => person))%>
-                <%=person.images.count%>
-              </p>
-            </li>
-          <% } %>
-        </ul>
-        <ul>
-          <li id="ads">
-            <%=render :partial => "shared/adsense"%>
-          </li>
-        </ul>
-        <div>
-          <% tag_cloud(Finding.tag_counts, cloud_classes) do |tag, css_class| %>
-            <%= link_to(tag.name, {:controller => :findings, :action => :tagged, :id => tag.name}, {:class => css_class}) %>
-          <% end %>
-        </div>
+        <% } %>
+      </ul>
+      <div id="cloud">
+        <% tag_cloud(Finding.tag_counts, cloud_classes) do |tag, css_class| %>
+          <%= link_to(tag.name, {:controller => :findings, :action => :tagged, :id => tag.name}, {:class => css_class}) %>
+        <% end %>
       </div>
-      <div id="content">
-        <%=render :partial => 'shared/flash' %>
-        <%=@content_for_layout %>
-      </div>
+      <%=render :partial => "shared/adsense" unless is_mobile? %>
+    </div>
+    <div id="content">
+      <%=render :partial => 'shared/flash' %>
+      <%=@content_for_layout %>
     </div>
     <div id="footer">
       <p>
         &copy; 2008 <%=link_to("Land of the Rising Code", "http://risingcode.com")%>
       </p>
     </div>
-    <%=render :partial => "shared/urchin"%>
-    <%=render :partial => "shared/uservoice"%>
+    <%=render :partial => "shared/urchin" unless is_mobile? %>
+    <%=render :partial => "shared/uservoice" unless is_mobile? %>
   </body>
 </html>

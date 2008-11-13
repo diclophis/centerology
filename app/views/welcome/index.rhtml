@@ -20,7 +20,7 @@
               </p>
             </li>
             <li>
-              <%=link_to(image_tag(image.thumb_permalink), image_url(image.permalink))%>
+              <%=link_to(image_tag(image.thumb_permalink, {:width => 365}), image_url(image.permalink))%>
             </li>
             <% if current_person then %>
               <li>
@@ -33,7 +33,7 @@
           <ul>
             <% image.top_similar_images.each { |similar_image| %>
               <li>
-                <%=link_to(image_tag(similar_image.icon_permalink), image_url(similar_image.permalink))%>
+                <%=link_to(image_tag(similar_image.icon_permalink, {:width => 128}), image_url(similar_image.permalink))%>
               </li>
             <% } %>
           </ul>
