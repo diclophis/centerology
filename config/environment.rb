@@ -77,7 +77,8 @@ require 'right_aws'
 require 'uuidtools'
 require 'RMagick'
 require 'xmlrpc/client'
-
+require 'hpricot'
+require 'iconv'
 
 require 'validates_as_uri'
 require 'validates_as_email'
@@ -87,6 +88,10 @@ require 'smtp_tls'
 require 'gmail'
 require 'plist'
 require 'has_ratings'
+require 'rss'
+require 'ffffound'
+require 'visualizeus'
+require 'weheartit'
 
 Fast::Cache.enable!
 TagList.delimiter = " "

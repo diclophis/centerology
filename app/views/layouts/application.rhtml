@@ -33,11 +33,13 @@
       .tag { padding: 0.25em; }
       .findings li { display: inline; }
       .findings li img { margin: 2em; vertical-align: middle; }
+      #feeds li { display: inline; }
+      #feeds li img { vertical-align: middle; }
       #header { background-color: #BEB677; padding: 0.5em 0.5em 0.5em 0.5em; width: 100em; }
       #header ul { float: right; margin: 0 0 0 0; }
       #header li { display: inline; }
       #sidebar { padding: 1em; width: 37em; float: left; background: #F9F4E3 url(/images/logo.png) no-repeat 1em 1em; }
-      #sidebar ul { margin: 0 0 0em 14em; }
+      #people { margin: 0 0 0em 14em; }
       #ads { margin: 1em 0 0 0; }
       #content { background-color: white; padding: 2em 0em 1em 4em; width: 58em; float: left; }
       #footer { padding: 0.5em; clear: both; width: 100em; }
@@ -91,7 +93,7 @@
       </h1>
     </div>
     <div id="sidebar">
-      <ul>
+      <ul id="people">
         <li>
           <h2>
             Active People
@@ -112,6 +114,23 @@
         <% end %>
       </div>
       <%=render :partial => "shared/adsense" unless is_mobile? %>
+      <ul id="feeds">
+        <% Ffffound.images { |url, src| %>
+          <li>
+            <%=link_to(image_tag(src, {:width => 50}), url)%>
+          </li>
+        <% } %>
+        <% Weheartit.images { |url, src| %>
+          <li>
+            <%=link_to(image_tag(src, {:width => 50}), url)%>
+          </li>
+        <% } %>
+        <% Visualizeus.images { |url, src| %>
+          <li>
+            <%=link_to(image_tag(src, {:width => 50}), url)%>
+          </li>
+        <% } %>
+      </ul>
     </div>
     <div id="content">
       <%=render :partial => 'shared/flash' %>

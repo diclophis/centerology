@@ -95,7 +95,7 @@ module Fast
             
       # How long your caches will be kept for (in seconds)
       def expiry
-        @expiry ||= 60 * 60 * 24
+        @expiry ||= 60 * 60# * 24
         #@expiry ||= 0
       end
       
