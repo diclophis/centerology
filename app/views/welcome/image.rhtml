@@ -8,9 +8,12 @@
       <br/>
       <%=truncate(@image.src, 42)%>
       <br/>
+      found <%=time_ago_in_words(@image.latest_finding.created_at)%> ago
+      <!--
       <% if @image.findings.count > 1 then %>
         found by <%=@image.findings.count%> other people
       <% end %>
+      -->
     </p>
   </li>
   <li>

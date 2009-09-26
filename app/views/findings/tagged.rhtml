@@ -1,5 +1,6 @@
 <% content_for :tagline do %>
-  <%=link_to("Findings tagged with #{@tag}", {:controller => :findings, :action => :tagged, :id => @tag})%>
+  <%=link_to(:Centerology, root_url)%>,
+  <%=link_to("findings tagged with #{@tag}", {:controller => :findings, :action => :tagged, :id => @tag})%>
 <% end %>
 <ul class="findings">
   <% @findings.each { |finding| %>

@@ -6,6 +6,10 @@ class FindingsController < ApplicationController
     @tag = params[:id]
     flash[:notice] = "You must supply a tag" and return redirect_to(root_url) if @tag.blank?
     @findings = Finding.find_tagged_with(@tag)
+    respond_to { |format|
+      format.html
+      format.rss
+    }
   end
   def update
     if request.post? then
